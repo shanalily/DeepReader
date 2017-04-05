@@ -30,6 +30,16 @@ private slots:
 
     void on_pushButton_4_clicked();
 
+    void on_Font_clicked();
+
+    void on_zoom_in_clicked();
+
+    void on_zoom_out_clicked();
+
+    void on_actionSave_triggered();
+
+    void on_find_returnPressed();
+
 private:
     Ui::MainWindow *ui;
     Poppler::Document *doc;

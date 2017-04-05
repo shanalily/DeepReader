@@ -3,6 +3,8 @@
 #include <QLabel>
 #include <QGraphicsScene>
 #include <QFileDialog>
+#include <QMessageBox>
+#include <QTextStream>
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 
@@ -26,6 +28,7 @@ MainWindow::MainWindow(QWidget *parent) :
     showPage();
 
     // testing whether I can read text from a pdf
+//    QString text = doc->page(300)->text(QRectF(0,0,1000,1000));
     QString text = doc->page(300)->text(QRectF(0,0,1000,1000));
     qDebug() << text;
 
@@ -46,6 +49,8 @@ MainWindow::MainWindow(QWidget *parent) :
 //    #error "We don't support that version yet...";
         qDebug() << "We don't support that version yet...";
     #endif
+
+    ui->find->setPlaceholderText("Search");
 }
 
 MainWindow::~MainWindow()
@@ -132,4 +137,56 @@ void MainWindow::on_pushButton_4_clicked()
 {
     zoom -= 10;
     showPage();
+}
+
+// choose font
+void MainWindow::on_Font_clicked()
+{
+    ui->textEditor->setStyleSheet("font-family: " + ui->font->currentText());
+}
+
+void MainWindow::on_zoom_in_clicked()
+{
+    ui->textEditor->zoomIn(3);
+}
+
+void MainWindow::on_zoom_out_clicked()
+{
+    ui->textEditor->zoomOut(3);
+}
+
+void MainWindow::on_actionSave_triggered()
+{
+    QString filename = QFileDialog::getSaveFileName(this, tr("Save File"), tr("Text files (*.txt)"));
+
+    if (filename != "") {
+        QFile file(filename);
+        if (file.open(QIODevice::ReadWrite)) {
+            QTextStream stream(&file);
+            stream << ui->textEditor->toPlainText();
+            file.flush();
+            file.close();
+        }
+        else {
+            QMessageBox::critical(this, tr("Error"), tr("Could not save file"));
+            return;
+        }
+    }
+}
+
+void MainWindow::on_find_returnPressed()
+{
+    int page_n = pageCounter;
+    QString search_word = ui->find->text();
+    while (page_n < doc->numPages()) {
+//        qDebug() << doc->page(page_n)->search(ui->find->text());
+        QRectF searchLocation = QRectF(QPoint(0,0), doc->page(page_n)->pageSize());
+        qDebug() << searchLocation;
+//        if (doc->page(page_n)->search(search_word)) {
+//            qDebug() << page_n;
+//            return;
+//        }
+        page_n += 1;
+        searchLocation = QRectF();
+    }
 }

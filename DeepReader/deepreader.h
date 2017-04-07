@@ -15,6 +15,16 @@ class DeepReader : public QMainWindow
 public:
     explicit DeepReader(QWidget *parent = 0);
     ~DeepReader();
+    void showPage();
+
+private slots:
+    void on_actionOpen_triggered();
+
+    void on_previous_clicked();
+
+    void on_next_clicked();
+
+    void on_lineEdit_returnPressed();
 
 private:
     Ui::DeepReader *ui;

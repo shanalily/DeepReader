@@ -3,6 +3,7 @@
 #include <QLabel>
 #include <QGraphicsScene>
 #include <QFileDialog>
+#include <QMessageBox>
 #include "deepreader.h"
 #include "ui_deepreader.h"
 
@@ -82,4 +83,23 @@ void DeepReader::on_lineEdit_returnPressed()
         qDebug() << "string entered was not a number";
     }
     qDebug() << text;
+}
+
+void DeepReader::on_actionSave_As_triggered()
+{
+    QString filename = QFileDialog::getSaveFileName(this, tr("Save File"), tr("Text files (*.txt)"));
+
+    if (filename != "") {
+        QFile file(filename);
+        if (file.open(QIODevice::ReadWrite)) {
+            QTextStream stream(&file);
+            stream << ui->textEditor->toPlainText();
+            file.flush();
+            file.close();
+        }
+        else {
+            QMessageBox::critical(this, tr("Error"), tr("Could not save file"));
+            return;
+        }
+    }
 }

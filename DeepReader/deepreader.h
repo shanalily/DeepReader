@@ -26,6 +26,8 @@ private slots:
 
     void on_lineEdit_returnPressed();
 
+    void on_actionSave_As_triggered();
+
 private:
     Ui::DeepReader *ui;
     Poppler::Document *doc;

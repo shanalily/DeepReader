@@ -14,6 +14,8 @@ DeepReader::DeepReader(QWidget *parent) :
     ui->setupUi(this);
     pageCounter = 0;
     zoom = 0;
+
+    ui->search->setPlaceholderText("Search");
 }
 
 DeepReader::~DeepReader()

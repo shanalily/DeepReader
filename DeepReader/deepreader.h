@@ -30,6 +30,10 @@ private slots:
 
     void on_actionOpen_Text_File_triggered();
 
+    void on_zoom_out_clicked();
+
+    void on_zoom_in_clicked();
+
 private:
     Ui::DeepReader *ui;
     Poppler::Document *doc;

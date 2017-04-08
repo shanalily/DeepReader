@@ -38,8 +38,8 @@ public:
     QAction *actionOpen_Text_File;
     QWidget *centralWidget;
     QGridLayout *gridLayout;
-    QGraphicsView *mainImage;
     QPlainTextEdit *textEditor;
+    QGraphicsView *mainImage;
     QHBoxLayout *horizontalLayout_3;
     QHBoxLayout *horizontalLayout_2;
     QHBoxLayout *horizontalLayout;
@@ -51,6 +51,10 @@ public:
     QLineEdit *end_page;
     QPushButton *pushButton;
     QLineEdit *search;
+    QHBoxLayout *horizontalLayout_4;
+    QSpacerItem *horizontalSpacer_2;
+    QPushButton *zoom_out;
+    QPushButton *zoom_in;
     QMenuBar *menuBar;
     QMenu *menuFile;
     QToolBar *mainToolBar;
@@ -73,15 +77,15 @@ public:
         gridLayout->setSpacing(6);
         gridLayout->setContentsMargins(11, 11, 11, 11);
         gridLayout->setObjectName(QStringLiteral("gridLayout"));
-        mainImage = new QGraphicsView(centralWidget);
-        mainImage->setObjectName(QStringLiteral("mainImage"));
-
-        gridLayout->addWidget(mainImage, 0, 0, 1, 1);
-
         textEditor = new QPlainTextEdit(centralWidget);
         textEditor->setObjectName(QStringLiteral("textEditor"));
 
         gridLayout->addWidget(textEditor, 0, 1, 1, 1);
+
+        mainImage = new QGraphicsView(centralWidget);
+        mainImage->setObjectName(QStringLiteral("mainImage"));
+
+        gridLayout->addWidget(mainImage, 0, 0, 1, 1);
 
         horizontalLayout_3 = new QHBoxLayout();
         horizontalLayout_3->setSpacing(6);
@@ -147,6 +151,28 @@ public:
 
         gridLayout->addLayout(horizontalLayout_3, 1, 0, 1, 1);
 
+        horizontalLayout_4 = new QHBoxLayout();
+        horizontalLayout_4->setSpacing(6);
+        horizontalLayout_4->setObjectName(QStringLiteral("horizontalLayout_4"));
+        horizontalSpacer_2 = new QSpacerItem(40, 20, QSizePolicy::Expanding, QSizePolicy::Minimum);
+
+        horizontalLayout_4->addItem(horizontalSpacer_2);
+
+        zoom_out = new QPushButton(centralWidget);
+        zoom_out->setObjectName(QStringLiteral("zoom_out"));
+        zoom_out->setMaximumSize(QSize(30, 16777215));
+
+        horizontalLayout_4->addWidget(zoom_out);
+
+        zoom_in = new QPushButton(centralWidget);
+        zoom_in->setObjectName(QStringLiteral("zoom_in"));
+        zoom_in->setMaximumSize(QSize(30, 16777215));
+
+        horizontalLayout_4->addWidget(zoom_in);
+
+
+        gridLayout->addLayout(horizontalLayout_4, 1, 1, 1, 1);
+
         DeepReader->setCentralWidget(centralWidget);
         mainImage->raise();
         lineEdit->raise();
@@ -184,6 +210,8 @@ public:
         previous->setText(QApplication::translate("DeepReader", "<-", Q_NULLPTR));
         next->setText(QApplication::translate("DeepReader", "->", Q_NULLPTR));
         pushButton->setText(QApplication::translate("DeepReader", "Start", Q_NULLPTR));
+        zoom_out->setText(QApplication::translate("DeepReader", "-", Q_NULLPTR));
+        zoom_in->setText(QApplication::translate("DeepReader", "+", Q_NULLPTR));
         menuFile->setTitle(QApplication::translate("DeepReader", "File", Q_NULLPTR));
     } // retranslateUi
 

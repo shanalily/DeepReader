@@ -117,3 +117,13 @@ void DeepReader::on_actionOpen_Text_File_triggered()
     QTextStream ReadFile(&file);
     ui->textEditor->setPlainText(ReadFile.readAll());
 }
+
+void DeepReader::on_zoom_out_clicked()
+{
+    ui->textEditor->zoomOut(3);
+}
+
+void DeepReader::on_zoom_in_clicked()
+{
+    ui->textEditor->zoomIn(3);
+}

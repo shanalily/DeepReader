@@ -16,6 +16,8 @@ DeepReader::DeepReader(QWidget *parent) :
     zoom = 0;
 
     ui->search->setPlaceholderText("Search");
+    ui->start_page->setPlaceholderText("Start Page");
+    ui->end_page->setPlaceholderText("End page");
 }
 
 DeepReader::~DeepReader()
@@ -104,4 +106,14 @@ void DeepReader::on_actionSave_As_triggered()
             return;
         }
     }
+}
+
+void DeepReader::on_actionOpen_Text_File_triggered()
+{
+    QString filename = QFileDialog::getOpenFileName(this,
+         tr("Open File"), "", tr("Text Files (*.txt)"));
+    QFile file(filename);
+    file.open(QFile::ReadOnly | QFile::Text);
+    QTextStream ReadFile(&file);
+    ui->textEditor->setPlainText(ReadFile.readAll());
 }

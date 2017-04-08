@@ -28,6 +28,8 @@ private slots:
 
     void on_actionSave_As_triggered();
 
+    void on_actionOpen_Text_File_triggered();
+
 private:
     Ui::DeepReader *ui;
     Poppler::Document *doc;

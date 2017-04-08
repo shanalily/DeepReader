@@ -35,6 +35,7 @@ class Ui_DeepReader
 public:
     QAction *actionOpen;
     QAction *actionSave_As;
+    QAction *actionOpen_Text_File;
     QWidget *centralWidget;
     QGridLayout *gridLayout;
     QGraphicsView *mainImage;
@@ -46,6 +47,9 @@ public:
     QPushButton *next;
     QLineEdit *lineEdit;
     QSpacerItem *horizontalSpacer;
+    QLineEdit *start_page;
+    QLineEdit *end_page;
+    QPushButton *pushButton;
     QLineEdit *search;
     QMenuBar *menuBar;
     QMenu *menuFile;
@@ -61,6 +65,8 @@ public:
         actionOpen->setObjectName(QStringLiteral("actionOpen"));
         actionSave_As = new QAction(DeepReader);
         actionSave_As->setObjectName(QStringLiteral("actionSave_As"));
+        actionOpen_Text_File = new QAction(DeepReader);
+        actionOpen_Text_File->setObjectName(QStringLiteral("actionOpen_Text_File"));
         centralWidget = new QWidget(DeepReader);
         centralWidget->setObjectName(QStringLiteral("centralWidget"));
         gridLayout = new QGridLayout(centralWidget);
@@ -88,11 +94,13 @@ public:
         horizontalLayout->setObjectName(QStringLiteral("horizontalLayout"));
         previous = new QPushButton(centralWidget);
         previous->setObjectName(QStringLiteral("previous"));
+        previous->setMaximumSize(QSize(30, 16777215));
 
         horizontalLayout->addWidget(previous);
 
         next = new QPushButton(centralWidget);
         next->setObjectName(QStringLiteral("next"));
+        next->setMaximumSize(QSize(30, 16777215));
 
         horizontalLayout->addWidget(next);
 
@@ -101,6 +109,7 @@ public:
 
         lineEdit = new QLineEdit(centralWidget);
         lineEdit->setObjectName(QStringLiteral("lineEdit"));
+        lineEdit->setMaximumSize(QSize(100, 16777215));
 
         horizontalLayout_2->addWidget(lineEdit);
 
@@ -108,12 +117,30 @@ public:
 
         horizontalLayout_2->addItem(horizontalSpacer);
 
+        start_page = new QLineEdit(centralWidget);
+        start_page->setObjectName(QStringLiteral("start_page"));
+        start_page->setMaximumSize(QSize(100, 16777215));
+
+        horizontalLayout_2->addWidget(start_page);
+
 
         horizontalLayout_3->addLayout(horizontalLayout_2);
 
+        end_page = new QLineEdit(centralWidget);
+        end_page->setObjectName(QStringLiteral("end_page"));
+        end_page->setMaximumSize(QSize(100, 16777215));
+
+        horizontalLayout_3->addWidget(end_page);
+
+        pushButton = new QPushButton(centralWidget);
+        pushButton->setObjectName(QStringLiteral("pushButton"));
+        pushButton->setMaximumSize(QSize(50, 16777215));
+
+        horizontalLayout_3->addWidget(pushButton);
+
         search = new QLineEdit(centralWidget);
         search->setObjectName(QStringLiteral("search"));
-        search->setMaximumSize(QSize(150, 16777215));
+        search->setMaximumSize(QSize(120, 16777215));
 
         horizontalLayout_3->addWidget(search);
 
@@ -140,6 +167,7 @@ public:
 
         menuBar->addAction(menuFile->menuAction());
         menuFile->addAction(actionOpen);
+        menuFile->addAction(actionOpen_Text_File);
         menuFile->addAction(actionSave_As);
 
         retranslateUi(DeepReader);
@@ -152,8 +180,10 @@ public:
         DeepReader->setWindowTitle(QApplication::translate("DeepReader", "DeepReader", Q_NULLPTR));
         actionOpen->setText(QApplication::translate("DeepReader", "Open File", Q_NULLPTR));
         actionSave_As->setText(QApplication::translate("DeepReader", "Save As", Q_NULLPTR));
+        actionOpen_Text_File->setText(QApplication::translate("DeepReader", "Open Text File", Q_NULLPTR));
         previous->setText(QApplication::translate("DeepReader", "<-", Q_NULLPTR));
         next->setText(QApplication::translate("DeepReader", "->", Q_NULLPTR));
+        pushButton->setText(QApplication::translate("DeepReader", "Start", Q_NULLPTR));
         menuFile->setTitle(QApplication::translate("DeepReader", "File", Q_NULLPTR));
     } // retranslateUi
 

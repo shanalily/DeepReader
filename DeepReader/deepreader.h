@@ -15,8 +15,12 @@ class DeepReader : public QMainWindow
 public:
     explicit DeepReader(QWidget *parent = 0);
     ~DeepReader();
+    // loads new page based on current value of pageCounter and displays it
     void showPage();
-    QStringList pageText(); // I'm not sure what this should return yet
+    // extracts text from pdf page
+    void pageText(); // I'm not sure what this should return yet
+    // determines whether notes are good enough to move to the next page
+    bool goodNotes();
 
 private slots:
     void on_actionOpen_triggered();
@@ -43,6 +47,9 @@ private:
     int pageCounter;
     int zoom;
     bool studySession;
+    int startPage;
+    int endPage;
+    QStringList words;
 };
 
 #endif // DEEPREADER_H

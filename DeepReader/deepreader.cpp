@@ -52,15 +52,25 @@ void DeepReader::showPage() {
     ui->mainImage->setScene(scene);
 }
 
-QStringList DeepReader::pageText() {
+void DeepReader::pageText() {
     QString text = doc->page(pageCounter)->text(QRectF(0,0,1000,1000));
     qDebug() << text;
     // I should probably get rid of all the empty strings this makes
-    QStringList words = text.split(" ");
+    words = text.split(" ");
+    // for testing, should delete
     for (int i = 0; i < words.length(); ++i) {
         qDebug() << words[i];
     }
-    return words;
+}
+
+bool DeepReader::goodNotes() {
+    // placeholder code before I think of a better way to judge
+    // the quality of the notes
+    QStringList notes = ui->textEditor->toPlainText().split(" ");
+    qDebug() << notes;
+    if (notes.length() > 10)
+        return true;
+    return false;
 }
 
 void DeepReader::on_actionOpen_triggered()
@@ -85,8 +95,23 @@ void DeepReader::on_previous_clicked()
 
 void DeepReader::on_next_clicked()
 {
-    ++pageCounter;
-    showPage();
+    // should study session end after last page?
+    // i.e. endPage + 1, or after good notes have
+    // been taken on that page
+    if (studySession) {
+        if (pageCounter >= endPage) {
+            studySession == false;
+            ++pageCounter;
+            showPage();
+        }
+        else if (goodNotes()) {
+            ++pageCounter;
+            showPage();
+        }
+    } else {
+        ++pageCounter;
+        showPage();
+    }
 }
 
 void DeepReader::on_lineEdit_returnPressed()
@@ -144,9 +169,19 @@ void DeepReader::on_start_clicked()
 {
     // now that studySession is true, it should be impossible
     // to move to the next page without meeting certain requirements
+    // I will have to add conditions in other functions based on
+    // whether studySession is true or not
     studySession = true;
-    int startPage = ui->start_page->text().toInt();
-    int endPage = ui->end_page->text().toInt();
-    qDebug() << startPage;
-    qDebug() << endPage;
+    startPage = ui->start_page->text().toInt();
+    endPage = ui->end_page->text().toInt();
+    if (pageCounter != startPage) {
+        pageCounter = startPage;
+        showPage();
+    }
+    // I may want to make words a private variable and pageText() a
+    // private function so that I don't have to copy over an entire
+    // list every time. This depends on what I end up having to extract
+    // text for
+    pageText();
+    qDebug() << goodNotes();
 }

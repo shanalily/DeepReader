@@ -14,6 +14,7 @@ DeepReader::DeepReader(QWidget *parent) :
     ui->setupUi(this);
     pageCounter = 0;
     zoom = 0;
+    studySession = false;
 
     ui->search->setPlaceholderText("Search");
     ui->start_page->setPlaceholderText("Start Page");
@@ -51,10 +52,21 @@ void DeepReader::showPage() {
     ui->mainImage->setScene(scene);
 }
 
+QStringList DeepReader::pageText() {
+    QString text = doc->page(pageCounter)->text(QRectF(0,0,1000,1000));
+    qDebug() << text;
+    // I should probably get rid of all the empty strings this makes
+    QStringList words = text.split(" ");
+    for (int i = 0; i < words.length(); ++i) {
+        qDebug() << words[i];
+    }
+    return words;
+}
+
 void DeepReader::on_actionOpen_triggered()
 {
     QString filename = QFileDialog::getOpenFileName(this,
-         tr("Open Image"), "", tr("PDF Files (*.pdf)"));
+         tr("Open Document"), "", tr("PDF Files (*.pdf)"));
     doc = Poppler::Document::load(filename);
     if (!doc || doc->isLocked()) {
         qDebug() << "doc variable is null or locked";
@@ -126,4 +138,15 @@ void DeepReader::on_zoom_out_clicked()
 void DeepReader::on_zoom_in_clicked()
 {
     ui->textEditor->zoomIn(3);
+}
+
+void DeepReader::on_start_clicked()
+{
+    // now that studySession is true, it should be impossible
+    // to move to the next page without meeting certain requirements
+    studySession = true;
+    int startPage = ui->start_page->text().toInt();
+    int endPage = ui->end_page->text().toInt();
+    qDebug() << startPage;
+    qDebug() << endPage;
 }

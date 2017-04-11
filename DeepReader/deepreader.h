@@ -16,6 +16,7 @@ public:
     explicit DeepReader(QWidget *parent = 0);
     ~DeepReader();
     void showPage();
+    QStringList pageText(); // I'm not sure what this should return yet
 
 private slots:
     void on_actionOpen_triggered();
@@ -34,11 +35,14 @@ private slots:
 
     void on_zoom_in_clicked();
 
+    void on_start_clicked();
+
 private:
     Ui::DeepReader *ui;
     Poppler::Document *doc;
     int pageCounter;
     int zoom;
+    bool studySession;
 };
 
 #endif // DEEPREADER_H

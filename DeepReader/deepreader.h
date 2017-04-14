@@ -35,6 +35,8 @@ private slots:
 
     void on_actionOpen_Text_File_triggered();
 
+    void change_font_size();
+
     void on_zoom_out_clicked();
 
     void on_zoom_in_clicked();

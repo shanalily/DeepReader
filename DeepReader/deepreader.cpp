@@ -174,6 +174,10 @@ void DeepReader::on_actionOpen_Text_File_triggered()
     ui->textEditor->setPlainText(ReadFile.readAll());
 }
 
+void DeepReader::change_font_size() {
+
+}
+
 void DeepReader::on_zoom_out_clicked()
 {
     ui->textEditor->zoomOut(3);

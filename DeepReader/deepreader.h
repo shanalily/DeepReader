@@ -50,6 +50,9 @@ private:
     int startPage;
     int endPage;
     QStringList words;
+    // so that I can ignore words in notes
+    // from previous pages
+    int previousText;
 };
 
 #endif // DEEPREADER_H

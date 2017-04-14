@@ -75,6 +75,10 @@ bool DeepReader::goodNotes() {
     // the quality of the notes
     // I should probably think of a way to read only the notes written
     // since the page was "turned"
+    if (words.length() < 20) {
+        // there's very little text on the page. Go to the next page.
+        return true;
+    }
     QStringList notes = ui->textEditor->toPlainText().split(" ");
     qDebug() << notes;
     if (notes.length() > 10)
@@ -99,6 +103,8 @@ void DeepReader::on_actionOpen_triggered()
 void DeepReader::on_previous_clicked()
 {
     --pageCounter;
+    if (pageCounter < 0)
+        pageCounter = 0;
     showPage();
 }
 
@@ -115,10 +121,14 @@ void DeepReader::on_next_clicked()
         }
         else if (goodNotes()) {
             ++pageCounter;
+            if (pageCounter >= doc->numPages())
+                pageCounter = doc->numPages() - 1;
             showPage();
         }
     } else {
         ++pageCounter;
+        if (pageCounter >= doc->numPages())
+            pageCounter = doc->numPages() - 1;
         showPage();
     }
 }

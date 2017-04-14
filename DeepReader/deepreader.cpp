@@ -4,6 +4,7 @@
 #include <QGraphicsScene>
 #include <QFileDialog>
 #include <QMessageBox>
+#include <QShortcut>
 #include "deepreader.h"
 #include "ui_deepreader.h"
 
@@ -19,6 +20,12 @@ DeepReader::DeepReader(QWidget *parent) :
     ui->search->setPlaceholderText("Search");
     ui->start_page->setPlaceholderText("Start Page");
     ui->end_page->setPlaceholderText("End page");
+
+    QShortcut *right = new QShortcut(QKeySequence(Qt::Key_Right), this, SLOT(on_next_clicked()));
+    QShortcut *left = new QShortcut(QKeySequence(Qt::Key_Left), this, SLOT(on_previous_clicked()));
+    // for when zoom is implemented
+//    QShortcut *in = new QShortcut(QKeySequence(Qt::CTRL + Qt::Key_Plus), this, SLOT(on_previous_clicked()));
+//    QShortcut *out = new QShortcut(QKeySequence(Qt::CTRL + Qt::Key_Minus), this, SLOT(on_previous_clicked()));
 }
 
 DeepReader::~DeepReader()
@@ -66,6 +73,8 @@ void DeepReader::pageText() {
 bool DeepReader::goodNotes() {
     // placeholder code before I think of a better way to judge
     // the quality of the notes
+    // I should probably think of a way to read only the notes written
+    // since the page was "turned"
     QStringList notes = ui->textEditor->toPlainText().split(" ");
     qDebug() << notes;
     if (notes.length() > 10)

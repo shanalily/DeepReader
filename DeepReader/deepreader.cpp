@@ -63,8 +63,7 @@ void DeepReader::pageText() {
     QString text = doc->page(pageCounter)->text(QRectF(0,0,1000,1000));
     qDebug() << text;
     // I should probably get rid of all the empty strings this makes
-    words = text.split(" ");
-    // for testing, should delete
+    words = text.split(QRegExp("\\s+"));
     for (int i = 0; i < words.length(); ++i) {
         qDebug() << words[i];
     }
@@ -79,6 +78,9 @@ bool DeepReader::goodNotes() {
         // there's very little text on the page. Go to the next page.
         return true;
     }
+    int minWordNum = words.length() * 0.05;
+    qDebug() << words.length();
+    qDebug() << minWordNum;
     QStringList notes = ui->textEditor->toPlainText().split(" ");
     qDebug() << notes;
     if (notes.length() > 10)

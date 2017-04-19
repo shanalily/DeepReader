@@ -84,10 +84,46 @@ bool DeepReader::goodNotes() {
     QStringList notes = ui->textEditor->toPlainText().split(" ");
     qDebug() << notes;
     if (notes.length() > 10)
+        // Shoudn't this be "notes.length() > minWordNum " ?
         return true;
+    /*
+     SUGGESTED USING relevantNotes() FUNCTION
+     if (notes.length() > 10 && relevantNotes(notes, words) ){
+        return true;
+     }
+     */
     return false;
 }
-
+/*
+bool relevantNotes(QStringList words, QStringList notes){
+    //We could also use a map structure here to increase efficiency
+    QStringList 100MostCommonWords; //https://en.wikipedia.org/wiki/Most_common_words_in_English
+    QStringList Qwords = QStringList(words); //new QStringList with elements the same as words
+    Qwords.removeDuplicates();
+    for (int i = 0; i < words.size(); i++){
+        if(100MostCommonWords.contains(words.at(i) ) ){
+            Qwords.delete(Qwords.getIndex(words.at(i) ) );
+        }
+    }
+    
+    // Qwords now contains words minus the common words
+ 
+    int counter = 0;
+    for (int i=0; i < notes.size();i++){
+        if (100MostCommonWords.contains(notes.at(i) ) ){
+            continue;
+        }
+        if (Qwords.contains(notes.at(i) ) ){
+            counter++;
+        }
+    }
+    int weightFactor = 4;
+    if (counter*weightFactor > Qwords.size() ){
+        return true;
+    }
+    return false;
+ }
+*/
 void DeepReader::on_actionOpen_triggered()
 {
     QString filename = QFileDialog::getOpenFileName(this,

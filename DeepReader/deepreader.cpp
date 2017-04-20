@@ -26,6 +26,20 @@ DeepReader::DeepReader(QWidget *parent) :
     // for when zoom is implemented
 //    QShortcut *in = new QShortcut(QKeySequence(Qt::CTRL + Qt::Key_Plus), this, SLOT(on_previous_clicked()));
 //    QShortcut *out = new QShortcut(QKeySequence(Qt::CTRL + Qt::Key_Minus), this, SLOT(on_previous_clicked()));
+
+
+    /* Start of PDF Zoom implementation (not finished or tested yet)
+
+    double width, height;
+
+    curr_page = poppler_document_get_page(ui, 0);
+
+    poppler_page_get_size(curr_page, &width, &height);
+    //need to figure out how scroll bar is drawn in our implementation
+    gtk_widget_set_size_request(viewer.drawingarea, (int)width, (int)height);
+    update_statusbar();
+
+    */
 }
 
 DeepReader::~DeepReader()
@@ -220,11 +234,31 @@ void DeepReader::change_font_size() {
 void DeepReader::on_zoom_out_clicked()
 {
     ui->textEditor->zoomOut(3);
+    /* Start of PDF Zoom implementation (not finished or tested yet)
+
+    curr_page = poppler_document_get_page(ui, 0);
+
+    poppler_page_get_size(ui, &width, &height);
+    gtk_widget_set_size_request(viewer.drawingarea, (int)(width-3), (int)(height-3));
+    update_statusbar();
+
+    */
 }
 
 void DeepReader::on_zoom_in_clicked()
 {
     ui->textEditor->zoomIn(3);
+    /* Start of PDF Zoom implementation (not finished or tested yet)
+
+    double width, height;
+
+    curr_page = poppler_document_get_page(ui, 0);
+
+    poppler_page_get_size(curr_page, &width, &height);
+    gtk_widget_set_size_request(viewer.drawingarea, (int)(width+3), (int)(height+3));
+    update_statusbar();
+
+    */
 }
 
 void DeepReader::on_start_clicked()

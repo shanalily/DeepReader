@@ -84,8 +84,8 @@ void DeepReader::pageText() {
 }
 
 bool relevantNotes(QStringList words, QStringList notes){
-    //We could also use a map structure here to increase efficiency
-    QStringList HundredMostCommonWords({"the","be","to","of","and","a","in","that","have","I","it","for",
+    // Used set to increase efficiency
+    QSet<QString> HundredMostCommonWords({"the","be","to","of","and","a","in","that","have","I","it","for",
             "not","on","with","he","as","you","do","at","this","but","his","by","from","they","we","say",
             "her","she","or","an","will","my","one","all","would","there","their","what","so","up","out",
             "if","about","who","get","which","go","me","when","make","can","like","time","no","just","him",
@@ -98,7 +98,6 @@ bool relevantNotes(QStringList words, QStringList notes){
     Qwords.removeDuplicates();
     for (int i = 0; i < words.size(); i++){
         if(HundredMostCommonWords.contains(words.at(i) ) ){
-//            Qwords.delete(Qwords.getIndex(words.at(i) ) );
             Qwords.removeAt(i);
         }
     }
@@ -122,8 +121,6 @@ bool relevantNotes(QStringList words, QStringList notes){
  }
 
 bool DeepReader::goodNotes() {
-    // placeholder code before I think of a better way to judge
-    // the quality of the notes
     // I should probably think of a way to read only the notes written
     // since the page was "turned"
     if (words.length() < 20) {
@@ -135,13 +132,10 @@ bool DeepReader::goodNotes() {
     qDebug() << minWordNum;
     QStringList notes = ui->textEditor->toPlainText().split(" ");
     qDebug() << notes;
-//    if (notes.length() > minWordNum)
-//        return true;
 
-//     SUGGESTED USING relevantNotes() FUNCTION
-     if (notes.length() > minWordNum && relevantNotes(notes, words) ){
+    if (notes.length() > minWordNum && relevantNotes(notes, words) ){
         return true;
-     }
+    }
 
     return false;
 }

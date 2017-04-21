@@ -5,6 +5,7 @@
 #include <QFileDialog>
 #include <QMessageBox>
 #include <QShortcut>
+#include <QTextEdit>
 #include "deepreader.h"
 #include "ui_deepreader.h"
 
@@ -234,12 +235,12 @@ void DeepReader::on_actionOpen_Text_File_triggered()
 }
 
 void DeepReader::on_bold_clicked() {
-    int bold = ui->texteditor->fontWeight();
+    int bold = ui->textEditor->fontWeight();
     if(bold == 50) {
-        ui->texteditor->setFontWeight(75);
+        ui->textEditor->setFontWeight(75);
     }
     else if(bold == 75) {
-        ui->texteditor->setFontWeight(50);
+        ui->textEditor->setFontWeight(50);
     }
     else {
         QMessageBox::critical(this, tr("Error"), tr("Improper font weight"));
@@ -248,13 +249,13 @@ void DeepReader::on_bold_clicked() {
 }
 
 void DeepReader::on_italic_clicked() {
-    bool italic = ui->texteditor->fontItalic();
-    ui->texteditor->setFontItalic(!italic);
+    bool italic = ui->textEditor->fontItalic();
+    ui->textEditor->setFontItalic(!italic);
 }
 
 void DeepReader::on_underline_clicked() {
-    bool underline = ui->texteditor->fontUnderline();
-    ui->texteditor->setFontUnderline(!underline);
+    bool underline = ui->textEditor->fontUnderline();
+    ui->textEditor->setFontUnderline(!underline);
 }
 
 void DeepReader::change_font_size() {

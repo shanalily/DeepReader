@@ -35,6 +35,12 @@ private slots:
 
     void on_actionOpen_Text_File_triggered();
 
+    void on_bold_clicked();
+
+    void on_italic_clicked();
+
+    void on_underline_clicked();
+
     void change_font_size();
 
     void on_zoom_out_clicked();

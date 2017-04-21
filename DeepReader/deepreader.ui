@@ -154,6 +154,45 @@
     <item row="1" column="1">
      <layout class="QHBoxLayout" name="horizontalLayout_4">
       <item>
+       <widget class="QPushButton" name="bold">
+        <property name="maximumSize">
+         <size>
+          <width>30</width>
+          <height>16777215</height>
+         </size>
+        </property>
+        <property name="text">
+         <string>B</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QPushButton" name="italic">
+        <property name="maximumSize">
+         <size>
+          <width>30</width>
+          <height>16777215</height>
+         </size>
+        </property>
+        <property name="text">
+         <string>I</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QPushButton" name="underline">
+        <property name="maximumSize">
+         <size>
+          <width>30</width>
+          <height>16777215</height>
+         </size>
+        </property>
+        <property name="text">
+         <string>U</string>
+        </property>
+       </widget>
+      </item>
+      <item>
        <spacer name="horizontalSpacer_2">
         <property name="orientation">
          <enum>Qt::Horizontal</enum>
@@ -165,6 +204,9 @@
          </size>
         </property>
        </spacer>
+      </item>
+      <item>
+       <widget class="QFontComboBox" name="font"/>
       </item>
       <item>
        <widget class="QSpinBox" name="font_size">

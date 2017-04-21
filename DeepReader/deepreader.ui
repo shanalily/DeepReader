@@ -21,13 +21,6 @@
     <string notr="true">background-color: #0099cc;</string>
    </property>
    <layout class="QGridLayout" name="gridLayout">
-    <item row="0" column="1">
-     <widget class="QPlainTextEdit" name="textEditor">
-      <property name="styleSheet">
-       <string notr="true">background-color: white;</string>
-      </property>
-     </widget>
-    </item>
     <item row="0" column="0">
      <widget class="QGraphicsView" name="mainImage">
       <property name="styleSheet">
@@ -302,9 +295,14 @@
       </item>
      </layout>
     </item>
+    <item row="0" column="1">
+     <widget class="QTextEdit" name="textEditor">
+      <property name="styleSheet">
+       <string notr="true">background-color:white;</string>
+      </property>
+     </widget>
+    </item>
    </layout>
-   <zorder>mainImage</zorder>
-   <zorder>textEditor</zorder>
   </widget>
   <widget class="QMenuBar" name="menuBar">
    <property name="geometry">

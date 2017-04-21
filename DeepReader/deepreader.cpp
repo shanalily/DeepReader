@@ -83,6 +83,44 @@ void DeepReader::pageText() {
     }
 }
 
+bool relevantNotes(QStringList words, QStringList notes){
+    //We could also use a map structure here to increase efficiency
+    QStringList HundredMostCommonWords({"the","be","to","of","and","a","in","that","have","I","it","for",
+            "not","on","with","he","as","you","do","at","this","but","his","by","from","they","we","say",
+            "her","she","or","an","will","my","one","all","would","there","their","what","so","up","out",
+            "if","about","who","get","which","go","me","when","make","can","like","time","no","just","him",
+            "know","take","people","into","year","your","good","some","could","them","see","other","than",
+            "then","now","look","only","come","its","over","think","also","back","after","use","two","how",
+            "our","work","first","well","way","even","new","want","because","any","these","give","day",
+            "most","us"});
+    //https://en.wikipedia.org/wiki/Most_common_words_in_English
+    QStringList Qwords = QStringList(words); //new QStringList with elements the same as words
+    Qwords.removeDuplicates();
+    for (int i = 0; i < words.size(); i++){
+        if(HundredMostCommonWords.contains(words.at(i) ) ){
+//            Qwords.delete(Qwords.getIndex(words.at(i) ) );
+            Qwords.removeAt(i);
+        }
+    }
+
+    // Qwords now contains words minus the common words
+
+    int counter = 0;
+    for (int i=0; i < notes.size();i++){
+        if (HundredMostCommonWords.contains(notes.at(i) ) ){
+            continue;
+        }
+        if (Qwords.contains(notes.at(i) ) ){
+            counter++;
+        }
+    }
+    int weightFactor = 4;
+    if (counter*weightFactor > Qwords.size() ){
+        return true;
+    }
+    return false;
+ }
+
 bool DeepReader::goodNotes() {
     // placeholder code before I think of a better way to judge
     // the quality of the notes
@@ -97,48 +135,17 @@ bool DeepReader::goodNotes() {
     qDebug() << minWordNum;
     QStringList notes = ui->textEditor->toPlainText().split(" ");
     qDebug() << notes;
-    if (notes.length() > 10)
-        // Shoudn't this be "notes.length() > minWordNum " ?
-        return true;
-    /*
-     SUGGESTED USING relevantNotes() FUNCTION
-     if (notes.length() > 10 && relevantNotes(notes, words) ){
+//    if (notes.length() > minWordNum)
+//        return true;
+
+//     SUGGESTED USING relevantNotes() FUNCTION
+     if (notes.length() > minWordNum && relevantNotes(notes, words) ){
         return true;
      }
-     */
+
     return false;
 }
-/*
-bool relevantNotes(QStringList words, QStringList notes){
-    //We could also use a map structure here to increase efficiency
-    QStringList 100MostCommonWords = ({'the','be','to','of','and','a','in','that','have','I','it','for','not','on','with','he','as','you','do','at','this','but','his','by','from','they','we','say','her','she','or','an','will','my','one','all','would','there','their','what','so','up','out','if','about','who','get','which','go','me','when','make','can','like','time','no','just','him','know','take','people','into','year','your','good','some','could','them','see','other','than','then','now','look','only','come','its','over','think','also','back','after','use','two','how','our','work','first','well','way','even','new','want','because','any','these','give','day','most','us'});
-    //https://en.wikipedia.org/wiki/Most_common_words_in_English
-    QStringList Qwords = QStringList(words); //new QStringList with elements the same as words
-    Qwords.removeDuplicates();
-    for (int i = 0; i < words.size(); i++){
-        if(100MostCommonWords.contains(words.at(i) ) ){
-            Qwords.delete(Qwords.getIndex(words.at(i) ) );
-        }
-    }
-    
-    // Qwords now contains words minus the common words
- 
-    int counter = 0;
-    for (int i=0; i < notes.size();i++){
-        if (100MostCommonWords.contains(notes.at(i) ) ){
-            continue;
-        }
-        if (Qwords.contains(notes.at(i) ) ){
-            counter++;
-        }
-    }
-    int weightFactor = 4;
-    if (counter*weightFactor > Qwords.size() ){
-        return true;
-    }
-    return false;
- }
-*/
+
 void DeepReader::on_actionOpen_triggered()
 {
     QString filename = QFileDialog::getOpenFileName(this,
@@ -275,7 +282,7 @@ void DeepReader::on_start_clicked()
         showPage();
     }
     // I may want to make words a private variable and pageText() a
-    // private function so that I don't have to copy over an entire
+    // private function so that I don"t have to copy over an entire
     // list every time. This depends on what I end up having to extract
     // text for
     pageText();

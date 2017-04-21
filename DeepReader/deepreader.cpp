@@ -16,10 +16,13 @@ DeepReader::DeepReader(QWidget *parent) :
     pageCounter = 0;
     zoom = 0;
     studySession = false;
+    previousText = 0;
 
     ui->search->setPlaceholderText("Search");
     ui->start_page->setPlaceholderText("Start Page");
     ui->end_page->setPlaceholderText("End page");
+
+//    this->setStyleSheet("background-color: #0099cc");
 
     QShortcut *right = new QShortcut(QKeySequence(Qt::Key_Right), this, SLOT(on_next_clicked()));
     QShortcut *left = new QShortcut(QKeySequence(Qt::Key_Left), this, SLOT(on_previous_clicked()));
@@ -83,7 +86,7 @@ void DeepReader::pageText() {
     }
 }
 
-bool relevantNotes(QStringList words, QStringList notes){
+bool relevantNotes(QStringList words, QStringList notes, int previousLength){
     // Used set to increase efficiency
     QSet<QString> HundredMostCommonWords({"the","be","to","of","and","a","in","that","have","I","it","for",
             "not","on","with","he","as","you","do","at","this","but","his","by","from","they","we","say",
@@ -105,7 +108,7 @@ bool relevantNotes(QStringList words, QStringList notes){
     // Qwords now contains words minus the common words
 
     int counter = 0;
-    for (int i=0; i < notes.size();i++){
+    for (int i=previousLength; i < notes.size();i++){
         if (HundredMostCommonWords.contains(notes.at(i) ) ){
             continue;
         }
@@ -130,10 +133,12 @@ bool DeepReader::goodNotes() {
     int minWordNum = words.length() * 0.05;
     qDebug() << words.length();
     qDebug() << minWordNum;
-    QStringList notes = ui->textEditor->toPlainText().split(" ");
+    QStringList notes = ui->textEditor->toPlainText().split(QRegExp("[,;.]\\s+"));
     qDebug() << notes;
 
-    if (notes.length() > minWordNum && relevantNotes(notes, words) ){
+    if ((notes.length() - previousText) > minWordNum && relevantNotes(notes, words, previousText) ){
+        previousText = notes.length();
+        qDebug() << "notes length: " << notes.length() << " notes from current page: " << notes.length() - previousText;
         return true;
     }
 
@@ -300,7 +305,7 @@ void DeepReader::on_start_clicked()
         showPage();
     }
     // I may want to make words a private variable and pageText() a
-    // private function so that I don"t have to copy over an entire
+    // private function so that I don't have to copy over an entire
     // list every time. This depends on what I end up having to extract
     // text for
     pageText();

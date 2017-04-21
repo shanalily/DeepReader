@@ -49,8 +49,6 @@ private slots:
 
     void on_start_clicked();
 
-//    bool relevantNotes(QStringList words, QStringList notes);
-
 private:
     Ui::DeepReader *ui;
     Poppler::Document *doc;

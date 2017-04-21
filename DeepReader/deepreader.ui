@@ -22,7 +22,7 @@
    </property>
    <layout class="QGridLayout" name="gridLayout">
     <item row="0" column="1">
-     <widget class="QPlainTextEdit" name="textEditor">
+     <widget class="QPlainTextEdit" name="texteditor">
       <property name="styleSheet">
        <string notr="true">background-color: white;</string>
       </property>
@@ -304,7 +304,7 @@
     </item>
    </layout>
    <zorder>mainImage</zorder>
-   <zorder>textEditor</zorder>
+   <zorder>texteditor</zorder>
   </widget>
   <widget class="QMenuBar" name="menuBar">
    <property name="geometry">

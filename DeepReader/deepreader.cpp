@@ -133,7 +133,7 @@ bool DeepReader::goodNotes() {
     int minWordNum = words.length() * 0.05;
     qDebug() << words.length();
     qDebug() << minWordNum;
-    QStringList notes = ui->textEditor->toPlainText().split(QRegExp("[,;.]\\s+"));
+    QStringList notes = ui->texteditor->toPlainText().split(QRegExp("[,;.]\\s+"));
     qDebug() << notes;
 
     if ((notes.length() - previousText) > minWordNum && relevantNotes(notes, words, previousText) ){
@@ -212,7 +212,7 @@ void DeepReader::on_actionSave_As_triggered()
         QFile file(filename);
         if (file.open(QIODevice::ReadWrite)) {
             QTextStream stream(&file);
-            stream << ui->textEditor->toPlainText();
+            stream << ui->texteditor->toPlainText();
             file.flush();
             file.close();
         }
@@ -230,7 +230,7 @@ void DeepReader::on_actionOpen_Text_File_triggered()
     QFile file(filename);
     file.open(QFile::ReadOnly | QFile::Text);
     QTextStream ReadFile(&file);
-    ui->textEditor->setPlainText(ReadFile.readAll());
+    ui->texteditor->setPlainText(ReadFile.readAll());
 }
 
 void DeepReader::on_bold_clicked() {
@@ -263,7 +263,7 @@ void DeepReader::change_font_size() {
 
 void DeepReader::on_zoom_out_clicked()
 {
-    ui->textEditor->zoomOut(3);
+    ui->texteditor->zoomOut(3);
     /* Start of PDF Zoom implementation (not finished or tested yet)
 
     curr_page = poppler_document_get_page(ui, 0);
@@ -277,7 +277,7 @@ void DeepReader::on_zoom_out_clicked()
 
 void DeepReader::on_zoom_in_clicked()
 {
-    ui->textEditor->zoomIn(3);
+    ui->texteditor->zoomIn(3);
     /* Start of PDF Zoom implementation (not finished or tested yet)
 
     double width, height;

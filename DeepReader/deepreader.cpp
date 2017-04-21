@@ -26,6 +26,20 @@ DeepReader::DeepReader(QWidget *parent) :
     // for when zoom is implemented
 //    QShortcut *in = new QShortcut(QKeySequence(Qt::CTRL + Qt::Key_Plus), this, SLOT(on_previous_clicked()));
 //    QShortcut *out = new QShortcut(QKeySequence(Qt::CTRL + Qt::Key_Minus), this, SLOT(on_previous_clicked()));
+
+
+    /* Start of PDF Zoom implementation (not finished or tested yet)
+
+    double width, height;
+
+    curr_page = poppler_document_get_page(ui, 0);
+
+    poppler_page_get_size(curr_page, &width, &height);
+    //need to figure out how scroll bar is drawn in our implementation
+    gtk_widget_set_size_request(viewer.drawingarea, (int)width, (int)height);
+    update_statusbar();
+
+    */
 }
 
 DeepReader::~DeepReader()
@@ -69,9 +83,44 @@ void DeepReader::pageText() {
     }
 }
 
+bool relevantNotes(QStringList words, QStringList notes){
+    // Used set to increase efficiency
+    QSet<QString> HundredMostCommonWords({"the","be","to","of","and","a","in","that","have","I","it","for",
+            "not","on","with","he","as","you","do","at","this","but","his","by","from","they","we","say",
+            "her","she","or","an","will","my","one","all","would","there","their","what","so","up","out",
+            "if","about","who","get","which","go","me","when","make","can","like","time","no","just","him",
+            "know","take","people","into","year","your","good","some","could","them","see","other","than",
+            "then","now","look","only","come","its","over","think","also","back","after","use","two","how",
+            "our","work","first","well","way","even","new","want","because","any","these","give","day",
+            "most","us"});
+    //https://en.wikipedia.org/wiki/Most_common_words_in_English
+    QStringList Qwords = QStringList(words); //new QStringList with elements the same as words
+    Qwords.removeDuplicates();
+    for (int i = 0; i < words.size(); i++){
+        if(HundredMostCommonWords.contains(words.at(i) ) ){
+            Qwords.removeAt(i);
+        }
+    }
+
+    // Qwords now contains words minus the common words
+
+    int counter = 0;
+    for (int i=0; i < notes.size();i++){
+        if (HundredMostCommonWords.contains(notes.at(i) ) ){
+            continue;
+        }
+        if (Qwords.contains(notes.at(i) ) ){
+            counter++;
+        }
+    }
+    int weightFactor = 4;
+    if (counter*weightFactor > Qwords.size() ){
+        return true;
+    }
+    return false;
+ }
+
 bool DeepReader::goodNotes() {
-    // placeholder code before I think of a better way to judge
-    // the quality of the notes
     // I should probably think of a way to read only the notes written
     // since the page was "turned"
     if (words.length() < 20) {
@@ -83,8 +132,11 @@ bool DeepReader::goodNotes() {
     qDebug() << minWordNum;
     QStringList notes = ui->textEditor->toPlainText().split(" ");
     qDebug() << notes;
-    if (notes.length() > 10)
+
+    if (notes.length() > minWordNum && relevantNotes(notes, words) ){
         return true;
+    }
+
     return false;
 }
 
@@ -183,11 +235,31 @@ void DeepReader::change_font_size() {
 void DeepReader::on_zoom_out_clicked()
 {
     ui->textEditor->zoomOut(3);
+    /* Start of PDF Zoom implementation (not finished or tested yet)
+
+    curr_page = poppler_document_get_page(ui, 0);
+
+    poppler_page_get_size(ui, &width, &height);
+    gtk_widget_set_size_request(viewer.drawingarea, (int)(width-3), (int)(height-3));
+    update_statusbar();
+
+    */
 }
 
 void DeepReader::on_zoom_in_clicked()
 {
     ui->textEditor->zoomIn(3);
+    /* Start of PDF Zoom implementation (not finished or tested yet)
+
+    double width, height;
+
+    curr_page = poppler_document_get_page(ui, 0);
+
+    poppler_page_get_size(curr_page, &width, &height);
+    gtk_widget_set_size_request(viewer.drawingarea, (int)(width+3), (int)(height+3));
+    update_statusbar();
+
+    */
 }
 
 void DeepReader::on_start_clicked()
@@ -204,7 +276,7 @@ void DeepReader::on_start_clicked()
         showPage();
     }
     // I may want to make words a private variable and pageText() a
-    // private function so that I don't have to copy over an entire
+    // private function so that I don"t have to copy over an entire
     // list every time. This depends on what I end up having to extract
     // text for
     pageText();

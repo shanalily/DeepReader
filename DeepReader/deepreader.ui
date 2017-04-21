@@ -13,13 +13,27 @@
   <property name="windowTitle">
    <string>DeepReader</string>
   </property>
+  <property name="styleSheet">
+   <string notr="true">background-color: 0099cc;</string>
+  </property>
   <widget class="QWidget" name="centralWidget">
+   <property name="styleSheet">
+    <string notr="true">background-color: #0099cc;</string>
+   </property>
    <layout class="QGridLayout" name="gridLayout">
     <item row="0" column="1">
-     <widget class="QPlainTextEdit" name="textEditor"/>
+     <widget class="QPlainTextEdit" name="textEditor">
+      <property name="styleSheet">
+       <string notr="true">background-color: white;</string>
+      </property>
+     </widget>
     </item>
     <item row="0" column="0">
-     <widget class="QGraphicsView" name="mainImage"/>
+     <widget class="QGraphicsView" name="mainImage">
+      <property name="styleSheet">
+       <string notr="true">background-color: white;</string>
+      </property>
+     </widget>
     </item>
     <item row="1" column="0">
      <layout class="QHBoxLayout" name="horizontalLayout_3">
@@ -35,6 +49,9 @@
               <height>16777215</height>
              </size>
             </property>
+            <property name="styleSheet">
+             <string notr="true">background-color: tan;</string>
+            </property>
             <property name="text">
              <string>&lt;-</string>
             </property>
@@ -47,6 +64,9 @@
               <width>30</width>
               <height>16777215</height>
              </size>
+            </property>
+            <property name="styleSheet">
+             <string notr="true">background-color: tan;</string>
             </property>
             <property name="text">
              <string>-&gt;</string>
@@ -62,6 +82,9 @@
             <width>100</width>
             <height>16777215</height>
            </size>
+          </property>
+          <property name="styleSheet">
+           <string notr="true">background-color: white;</string>
           </property>
          </widget>
         </item>
@@ -86,6 +109,9 @@
             <height>16777215</height>
            </size>
           </property>
+          <property name="styleSheet">
+           <string notr="true">background-color: white;</string>
+          </property>
          </widget>
         </item>
        </layout>
@@ -98,6 +124,9 @@
           <height>16777215</height>
          </size>
         </property>
+        <property name="styleSheet">
+         <string notr="true">background-color: white;</string>
+        </property>
        </widget>
       </item>
       <item>
@@ -107,6 +136,9 @@
           <width>50</width>
           <height>16777215</height>
          </size>
+        </property>
+        <property name="styleSheet">
+         <string notr="true">background-color: tan;</string>
         </property>
         <property name="text">
          <string>Start</string>
@@ -121,6 +153,9 @@
           <height>16777215</height>
          </size>
         </property>
+        <property name="styleSheet">
+         <string notr="true">background-color: white;</string>
+        </property>
        </widget>
       </item>
       <item>
@@ -130,6 +165,9 @@
           <width>30</width>
           <height>16777215</height>
          </size>
+        </property>
+        <property name="styleSheet">
+         <string notr="true">background-color: tan;</string>
         </property>
         <property name="text">
          <string>-</string>
@@ -143,6 +181,9 @@
           <width>30</width>
           <height>16777215</height>
          </size>
+        </property>
+        <property name="styleSheet">
+         <string notr="true">background-color: tan;</string>
         </property>
         <property name="text">
          <string>+</string>
@@ -168,6 +209,9 @@
       </item>
       <item>
        <widget class="QSpinBox" name="font_size">
+        <property name="styleSheet">
+         <string notr="true">background-color: white;</string>
+        </property>
         <property name="minimum">
          <number>8</number>
         </property>
@@ -190,6 +234,9 @@
           <height>16777215</height>
          </size>
         </property>
+        <property name="styleSheet">
+         <string notr="true">background-color: tan;</string>
+        </property>
         <property name="text">
          <string>-</string>
         </property>
@@ -202,6 +249,9 @@
           <width>30</width>
           <height>16777215</height>
          </size>
+        </property>
+        <property name="styleSheet">
+         <string notr="true">background-color: tan;</string>
         </property>
         <property name="text">
          <string>+</string>

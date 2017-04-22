@@ -150,14 +150,16 @@ void DeepReader::on_actionOpen_triggered()
 {
     QString filename = QFileDialog::getOpenFileName(this,
          tr("Open Document"), "", tr("PDF Files (*.pdf)"));
-    doc = Poppler::Document::load(filename);
-    if (!doc || doc->isLocked()) {
-        qDebug() << "doc variable is null or locked";
-        delete doc;
+    if (filename.contains(".pdf")) {
+        doc = Poppler::Document::load(filename);
+        if (!doc || doc->isLocked()) {
+            qDebug() << "doc variable is null or locked";
+            delete doc;
+        }
+        pageCounter = 0;
+        qDebug() << (doc == NULL);
+        showPage();
     }
-    pageCounter = 0;
-    qDebug() << (doc == NULL);
-    showPage();
 }
 
 void DeepReader::on_previous_clicked()

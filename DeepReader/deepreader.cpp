@@ -18,6 +18,7 @@ DeepReader::DeepReader(QWidget *parent) :
     zoom = 0;
     studySession = false;
     previousText = 0;
+    doc = NULL;
 
     ui->search->setPlaceholderText("Search");
     ui->start_page->setPlaceholderText("Start Page");
@@ -81,7 +82,7 @@ void DeepReader::pageText() {
     QString text = doc->page(pageCounter)->text(QRectF(0,0,1000,1000));
     qDebug() << text;
     // I should probably get rid of all the empty strings this makes
-    words = text.split(QRegExp("\\s+"));
+    words = text.split(QRegExp("[:;.,]*\\s+"));
     for (int i = 0; i < words.length(); ++i) {
         qDebug() << words[i];
     }
@@ -132,9 +133,9 @@ bool DeepReader::goodNotes() {
         return true;
     }
     int minWordNum = words.length() * 0.05;
-    qDebug() << words.length();
-    qDebug() << minWordNum;
-    QStringList notes = ui->texteditor->toPlainText().split(QRegExp("[,;.]\\s+"));
+    qDebug() << "words.length(): " << words.length();
+    qDebug() << "minWordNum: " << minWordNum;
+    QStringList notes = ui->texteditor->toPlainText().split(QRegExp("[,;.]*\\s+"));
     qDebug() << notes;
 
     if ((notes.length() - previousText) > minWordNum && relevantNotes(notes, words, previousText) ){
@@ -150,7 +151,7 @@ void DeepReader::on_actionOpen_triggered()
 {
     QString filename = QFileDialog::getOpenFileName(this,
          tr("Open Document"), "", tr("PDF Files (*.pdf)"));
-    if (filename.contains(".pdf")) {
+    if (filename.contains(".pdf")) { // could I do this in a less trivial way?
         doc = Poppler::Document::load(filename);
         if (!doc || doc->isLocked()) {
             qDebug() << "doc variable is null or locked";
@@ -164,10 +165,12 @@ void DeepReader::on_actionOpen_triggered()
 
 void DeepReader::on_previous_clicked()
 {
-    --pageCounter;
-    if (pageCounter < 0)
-        pageCounter = 0;
-    showPage();
+    if (doc != NULL) {
+        --pageCounter;
+        if (pageCounter < 0)
+            pageCounter = 0;
+        showPage();
+    }
 }
 
 void DeepReader::on_next_clicked()
@@ -175,23 +178,25 @@ void DeepReader::on_next_clicked()
     // should study session end after last page?
     // i.e. endPage + 1, or after good notes have
     // been taken on that page
-    if (studySession) {
-        if (pageCounter >= endPage) {
-            studySession == false;
-            ++pageCounter;
-            showPage();
-        }
-        else if (goodNotes()) {
+    if (doc != NULL) {
+        if (studySession) {
+            if (pageCounter >= endPage) {
+                studySession == false;
+                ++pageCounter;
+                showPage();
+            }
+            else if (goodNotes()) {
+                ++pageCounter;
+                if (pageCounter >= doc->numPages())
+                    pageCounter = doc->numPages() - 1;
+                showPage();
+            }
+        } else {
             ++pageCounter;
             if (pageCounter >= doc->numPages())
                 pageCounter = doc->numPages() - 1;
             showPage();
         }
-    } else {
-        ++pageCounter;
-        if (pageCounter >= doc->numPages())
-            pageCounter = doc->numPages() - 1;
-        showPage();
     }
 }
 
@@ -234,6 +239,7 @@ void DeepReader::on_actionOpen_Text_File_triggered()
     file.open(QFile::ReadOnly | QFile::Text);
     QTextStream ReadFile(&file);
     ui->texteditor->setPlainText(ReadFile.readAll());
+    previousText = ui->texteditor->toPlainText().split(QRegExp("[\n]*\\s")).size();
 }
 
 void DeepReader::on_bold_clicked() {
@@ -264,9 +270,44 @@ void DeepReader::change_font_size() {
 
 }
 
+// text editor zoom-out
 void DeepReader::on_zoom_out_clicked()
 {
     ui->texteditor->zoomOut(3);
+}
+
+// text editor zoom-in
+void DeepReader::on_zoom_in_clicked()
+{
+    ui->texteditor->zoomIn(3);
+}
+
+void DeepReader::on_start_clicked()
+{
+    // now that studySession is true, it should be impossible
+    // to move to the next page without meeting certain requirements
+    // I will have to add conditions in other functions based on
+    // whether studySession is true or not
+    if (doc != NULL) {
+        studySession = true;
+        startPage = ui->start_page->text().toInt();
+        endPage = ui->end_page->text().toInt();
+        if (pageCounter != startPage) {
+            pageCounter = startPage;
+            showPage();
+        }
+        // I may want to make words a private variable and pageText() a
+        // private function so that I don't have to copy over an entire
+        // list every time. This depends on what I end up having to extract
+        // text for
+        pageText();
+        qDebug() << goodNotes();
+    }
+}
+
+// pdf viewer zoom-out
+void DeepReader::on_zoom_out_pdf_clicked()
+{
     /* Start of PDF Zoom implementation (not finished or tested yet)
 
     curr_page = poppler_document_get_page(ui, 0);
@@ -278,9 +319,9 @@ void DeepReader::on_zoom_out_clicked()
     */
 }
 
-void DeepReader::on_zoom_in_clicked()
+// pdf viewer zoom-in
+void DeepReader::on_zoom_in_pdf_clicked()
 {
-    ui->texteditor->zoomIn(3);
     /* Start of PDF Zoom implementation (not finished or tested yet)
 
     double width, height;
@@ -292,25 +333,4 @@ void DeepReader::on_zoom_in_clicked()
     update_statusbar();
 
     */
-}
-
-void DeepReader::on_start_clicked()
-{
-    // now that studySession is true, it should be impossible
-    // to move to the next page without meeting certain requirements
-    // I will have to add conditions in other functions based on
-    // whether studySession is true or not
-    studySession = true;
-    startPage = ui->start_page->text().toInt();
-    endPage = ui->end_page->text().toInt();
-    if (pageCounter != startPage) {
-        pageCounter = startPage;
-        showPage();
-    }
-    // I may want to make words a private variable and pageText() a
-    // private function so that I don't have to copy over an entire
-    // list every time. This depends on what I end up having to extract
-    // text for
-    pageText();
-    qDebug() << goodNotes();
 }

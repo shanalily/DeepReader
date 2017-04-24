@@ -31,6 +31,8 @@ DeepReader::DeepReader(QWidget *parent) :
     // for when zoom is implemented
 //    QShortcut *in = new QShortcut(QKeySequence(Qt::CTRL + Qt::Key_Plus), this, SLOT(on_previous_clicked()));
 //    QShortcut *out = new QShortcut(QKeySequence(Qt::CTRL + Qt::Key_Minus), this, SLOT(on_previous_clicked()));
+    QShortcut *text_zoom_in = new QShortcut(QKeySequence(Qt::CTRL + Qt::Key_Plus), this, SLOT(on_zoom_in_clicked())); // zoom in doesn't work
+    QShortcut *text_zoom_out = new QShortcut(QKeySequence(Qt::CTRL + Qt::Key_Minus), this, SLOT(on_zoom_out_clicked())); // does work
 
 
     /* Start of PDF Zoom implementation (not finished or tested yet)
@@ -65,8 +67,9 @@ void DeepReader::showPage() {
 
     // make page into image
     // we need to figure out page dimensions and zoom
-    QImage image = pdfpage->renderToImage(60+zoom,60+zoom, 0,0, dim.rwidth()+zoom,dim.rheight()+zoom);
-    // QImage image = pdfpage->renderToImage(10*physicalDpiX(), 10*physicalDpiY());
+    // QImage image = pdfpage->renderToImage(60+zoom,60+zoom, 0,0, dim.rwidth()+zoom,dim.rheight()+zoom);
+    QImage image = pdfpage->renderToImage(72.0 + zoom,72.0 + zoom);
+    // args to renderToImage: double xres=72.0, double yres=72.0, int x=-1, int y=-1, int w=-1, int h=-1, Rotation rotate=Rotate0
     if (image.isNull()) {
         qDebug() << "image is null";
     }
@@ -308,6 +311,8 @@ void DeepReader::on_start_clicked()
 // pdf viewer zoom-out
 void DeepReader::on_zoom_out_pdf_clicked()
 {
+    zoom -= 10;
+    showPage();
     /* Start of PDF Zoom implementation (not finished or tested yet)
 
     curr_page = poppler_document_get_page(ui, 0);
@@ -322,6 +327,8 @@ void DeepReader::on_zoom_out_pdf_clicked()
 // pdf viewer zoom-in
 void DeepReader::on_zoom_in_pdf_clicked()
 {
+    zoom += 10;
+    showPage();
     /* Start of PDF Zoom implementation (not finished or tested yet)
 
     double width, height;

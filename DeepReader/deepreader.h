@@ -53,6 +53,8 @@ private slots:
 
     void on_zoom_in_pdf_clicked();
 
+    void find_questions();
+
 private:
     Ui::DeepReader *ui;
     Poppler::Document *doc;

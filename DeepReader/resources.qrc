@@ -1,0 +1,12 @@
+<RCC>
+    <qresource prefix="/new/button_images">
+        <file>white_arrow_up.png</file>
+        <file>../../Pictures/white_arrow_left.png</file>
+        <file>white_arrow_down.png</file>
+        <file>white_arrow_left.png</file>
+        <file>white_arrow_right.png</file>
+    </qresource>
+    <qresource prefix="/">
+        <file>../../Pictures/white_arrow_left.png</file>
+    </qresource>
+</RCC>

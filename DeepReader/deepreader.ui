@@ -56,7 +56,11 @@ color: white;
 padding: 4px 12px;</string>
             </property>
             <property name="text">
-             <string>&lt;-</string>
+             <string/>
+            </property>
+            <property name="icon">
+             <iconset resource="resources.qrc">
+              <normaloff>:/new/button_images/white_arrow_left.png</normaloff>:/new/button_images/white_arrow_left.png</iconset>
             </property>
            </widget>
           </item>
@@ -75,7 +79,11 @@ color: white;
 padding: 4px 12px;</string>
             </property>
             <property name="text">
-             <string>-&gt;</string>
+             <string/>
+            </property>
+            <property name="icon">
+             <iconset resource="resources.qrc">
+              <normaloff>:/new/button_images/white_arrow_right.png</normaloff>:/new/button_images/white_arrow_right.png</iconset>
             </property>
            </widget>
           </item>
@@ -147,7 +155,8 @@ padding: 4px 12px;</string>
          <string notr="true">border: none;
 background-color: #0099cc;
 color: white;
-padding: 4px;</string>
+padding: 4px;
+font-weight: bold;</string>
         </property>
         <property name="text">
          <string>Start</string>
@@ -179,7 +188,8 @@ padding: 4px;</string>
          <string notr="true">border: none;
 background-color: #0099cc;
 color: white;
-padding: 4px 12px;</string>
+padding: 4px 12px;
+font-weight: bold;</string>
         </property>
         <property name="text">
          <string>-</string>
@@ -198,7 +208,8 @@ padding: 4px 12px;</string>
          <string notr="true">border: none;
 background-color: #0099cc;
 color: white;
-padding: 4px 11px;</string>
+padding: 4px 11px;
+font-weight: bold;</string>
         </property>
         <property name="text">
          <string>+</string>
@@ -221,7 +232,8 @@ padding: 4px 11px;</string>
          <string notr="true">border: none;
 background-color: #0099cc;
 color: white;
-padding: 4px 10px;</string>
+padding: 4px 10px;
+font-weight: bold;</string>
         </property>
         <property name="text">
          <string>B</string>
@@ -240,7 +252,8 @@ padding: 4px 10px;</string>
          <string notr="true">border: none;
 background-color: #0099cc;
 color: white;
-padding: 4px 11px;</string>
+padding: 4px 11px;
+font-weight: bold;</string>
         </property>
         <property name="text">
          <string>I</string>
@@ -259,7 +272,8 @@ padding: 4px 11px;</string>
          <string notr="true">border: none;
 background-color: #0099cc;
 color: white;
-padding: 4px 10px;</string>
+padding: 4px 10px;
+font-weight: bold;</string>
         </property>
         <property name="text">
          <string>U</string>
@@ -280,7 +294,16 @@ padding: 4px 10px;</string>
        </spacer>
       </item>
       <item>
-       <widget class="QFontComboBox" name="font"/>
+       <widget class="QFontComboBox" name="font">
+        <property name="styleSheet">
+         <string notr="true">QComboBox::drop-down {
+	border: none;
+	background-color: #0099cc;
+	image: url(:/new/button_images/white_arrow_down.png);
+	padding: 2px;
+}</string>
+        </property>
+       </widget>
       </item>
       <item>
        <widget class="QSpinBox" name="font_size">
@@ -313,7 +336,8 @@ padding: 4px 10px;</string>
          <string notr="true">border: none;
 background-color: #0099cc;
 color: white;
-padding: 4px 12px;</string>
+padding: 4px 12px;
+font-weight: bold;</string>
         </property>
         <property name="text">
          <string>-</string>
@@ -332,7 +356,8 @@ padding: 4px 12px;</string>
          <string notr="true">border: none;
 background-color: #0099cc;
 color: white;
-padding: 4px 11px;</string>
+padding: 4px 11px;
+font-weight: bold;</string>
         </property>
         <property name="text">
          <string>+</string>
@@ -398,6 +423,8 @@ padding: 4px 11px;</string>
   </action>
  </widget>
  <layoutdefault spacing="6" margin="11"/>
- <resources/>
+ <resources>
+  <include location="resources.qrc"/>
+ </resources>
  <connections/>
 </ui>

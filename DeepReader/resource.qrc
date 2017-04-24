@@ -1,0 +1,5 @@
+<RCC>
+    <qresource prefix="/new/prefix">
+        <file>1024px-White_arrow_up.svg.png</file>
+    </qresource>
+</RCC>

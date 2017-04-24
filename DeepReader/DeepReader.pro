@@ -31,3 +31,6 @@ SOURCES += main.cpp\
 HEADERS  += deepreader.h
 
 FORMS    += deepreader.ui
+
+RESOURCES += \
+    resources.qrc

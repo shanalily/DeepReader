@@ -33,20 +33,6 @@ DeepReader::DeepReader(QWidget *parent) :
 //    QShortcut *out = new QShortcut(QKeySequence(Qt::CTRL + Qt::Key_Minus), this, SLOT(on_previous_clicked()));
     QShortcut *text_zoom_in = new QShortcut(QKeySequence(Qt::CTRL + Qt::Key_Plus), this, SLOT(on_zoom_in_clicked())); // zoom in doesn't work
     QShortcut *text_zoom_out = new QShortcut(QKeySequence(Qt::CTRL + Qt::Key_Minus), this, SLOT(on_zoom_out_clicked())); // does work
-
-
-    /* Start of PDF Zoom implementation (not finished or tested yet)
-
-    double width, height;
-
-    curr_page = poppler_document_get_page(ui, 0);
-
-    poppler_page_get_size(curr_page, &width, &height);
-    //need to figure out how scroll bar is drawn in our implementation
-    gtk_widget_set_size_request(viewer.drawingarea, (int)width, (int)height);
-    update_statusbar();
-
-    */
 }
 
 DeepReader::~DeepReader()
@@ -313,15 +299,6 @@ void DeepReader::on_zoom_out_pdf_clicked()
 {
     zoom -= 10;
     showPage();
-    /* Start of PDF Zoom implementation (not finished or tested yet)
-
-    curr_page = poppler_document_get_page(ui, 0);
-
-    poppler_page_get_size(ui, &width, &height);
-    gtk_widget_set_size_request(viewer.drawingarea, (int)(width-3), (int)(height-3));
-    update_statusbar();
-
-    */
 }
 
 // pdf viewer zoom-in
@@ -329,15 +306,18 @@ void DeepReader::on_zoom_in_pdf_clicked()
 {
     zoom += 10;
     showPage();
-    /* Start of PDF Zoom implementation (not finished or tested yet)
+}
 
-    double width, height;
-
-    curr_page = poppler_document_get_page(ui, 0);
-
-    poppler_page_get_size(curr_page, &width, &height);
-    gtk_widget_set_size_request(viewer.drawingarea, (int)(width+3), (int)(height+3));
-    update_statusbar();
-
+// question viewer
+void DeepReader::find_questions()
+{
+    /*
+        Will implement code for finding questions here,
+        this can possibly be used for implementing our
+        secondary feature of having an answer checker.
+        Most likely won't have time to implement a
+        complete question/answer checker but we could
+        use this to highlight questions or do something
+        similar.
     */
 }

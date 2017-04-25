@@ -262,7 +262,7 @@ void DeepReader::on_align_currentIndexChanged() {
     else if(ui->align->currentIndex() == 2) {
         ui->texteditor->setAlignment(Qt::AlignCenter);
     }
-    else if(ui->currentIndex() == 3) {
+    else if(ui->align->currentIndex() == 3) {
         ui->texteditor->setAlignment(Qt::AlignJustify);
     }
     else {

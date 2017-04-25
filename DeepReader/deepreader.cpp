@@ -237,6 +237,18 @@ void DeepReader::on_actionOpen_Text_File_triggered()
     previousText = ui->texteditor->toHtml().split(QRegExp("[\n]*\\s")).size();
 }
 
+void DeepReader::on_actionCut_triggered() {
+    ui->texteditor->cut();
+}
+
+void DeepReader::on_actionCopy_triggered() {
+    ui->texteditor->copy();
+}
+
+void DeepReader::on_actionPaste_tiggered() {
+    ui->texteditor->paste();
+}
+
 void DeepReader::on_bold_clicked() {
     int bold = ui->texteditor->fontWeight();
     if(bold == 50) {

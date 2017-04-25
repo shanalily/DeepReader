@@ -17,22 +17,21 @@ DeepReader::DeepReader(QWidget *parent) :
     pageCounter = 0;
     zoom = 0;
     studySession = false;
-    previousText = 0;
+    previousText = 0; // I should probably set this when I open a document, and reset it at points
     doc = NULL;
 
     ui->search->setPlaceholderText("Search");
     ui->start_page->setPlaceholderText("Start Page");
     ui->end_page->setPlaceholderText("End page");
 
-//    this->setStyleSheet("background-color: #0099cc");
-
     QShortcut *right = new QShortcut(QKeySequence(Qt::Key_Right), this, SLOT(on_next_clicked()));
     QShortcut *left = new QShortcut(QKeySequence(Qt::Key_Left), this, SLOT(on_previous_clicked()));
     // for when zoom is implemented
-//    QShortcut *in = new QShortcut(QKeySequence(Qt::CTRL + Qt::Key_Plus), this, SLOT(on_previous_clicked()));
-//    QShortcut *out = new QShortcut(QKeySequence(Qt::CTRL + Qt::Key_Minus), this, SLOT(on_previous_clicked()));
-    QShortcut *text_zoom_in = new QShortcut(QKeySequence(Qt::CTRL + Qt::Key_Plus), this, SLOT(on_zoom_in_clicked())); // zoom in doesn't work
-    QShortcut *text_zoom_out = new QShortcut(QKeySequence(Qt::CTRL + Qt::Key_Minus), this, SLOT(on_zoom_out_clicked())); // does work
+    QShortcut *in = new QShortcut(QKeySequence(Qt::CTRL + Qt::Key_Plus), this, SLOT(on_zoom_in_pdf_clicked()));
+    QShortcut *out = new QShortcut(QKeySequence(Qt::CTRL + Qt::Key_Minus), this, SLOT(on_zoom_out_pdf_clicked()));
+    // for text editor
+    // QShortcut *text_zoom_in = new QShortcut(QKeySequence(Qt::CTRL + Qt::Key_Plus), this, SLOT(on_zoom_in_clicked())); // zoom in doesn't work
+    // QShortcut *text_zoom_out = new QShortcut(QKeySequence(Qt::CTRL + Qt::Key_Minus), this, SLOT(on_zoom_out_clicked())); // does work
 }
 
 DeepReader::~DeepReader()
@@ -325,4 +324,11 @@ void DeepReader::find_questions()
         use this to highlight questions or do something
         similar.
     */
+}
+
+// find word
+void DeepReader::on_search_returnPressed()
+{
+    // search args : const QString &text, SearchFlags flags = 0
+//    doc->page(pageCounter)->search()
 }

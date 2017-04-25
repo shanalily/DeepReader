@@ -121,6 +121,7 @@ bool DeepReader::goodNotes() {
         // there's very little text on the page. Go to the next page.
         return true;
     }
+    // maybe have this as default, but figure out way for user to set this
     int minWordNum = words.length() * 0.05;
     qDebug() << "words.length(): " << words.length();
     qDebug() << "minWordNum: " << minWordNum;
@@ -191,14 +192,18 @@ void DeepReader::on_next_clicked()
 
 void DeepReader::on_lineEdit_returnPressed()
 {
-    QString text = ui->lineEdit->text();
-    if(text.toInt() != NULL) {
-        pageCounter = text.toInt();
-        showPage();
-    } else {
-        qDebug() << "string entered was not a number";
+    if (doc != NULL) {
+        QString text = ui->lineEdit->text();
+        if(text.toInt() != NULL) {
+            if (text.toInt() < doc->numPages()) {
+                pageCounter = text.toInt();
+                showPage();
+            }
+        } else {
+            qDebug() << "string entered was not a number";
+        }
+        qDebug() << text;
     }
-    qDebug() << text;
 }
 
 void DeepReader::on_actionSave_As_triggered()

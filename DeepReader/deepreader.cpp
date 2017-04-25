@@ -260,7 +260,7 @@ void DeepReader::on_underline_clicked() {
 }
 
 void DeepReader::on_font_currentFontChanged() {
-    QFont font = ui->texteditor->currentFont();
+    QFont font = ui->font->currentFont();
     ui->texteditor->setCurrentFont(font);
 }
 

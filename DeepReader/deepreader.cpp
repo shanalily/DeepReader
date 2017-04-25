@@ -213,8 +213,7 @@ void DeepReader::on_actionSave_As_triggered()
         QFile file(filename);
         if (file.open(QIODevice::ReadWrite)) {
             QTextStream stream(&file);
-//            stream << ui->texteditor->toHtml();
-            ui->texteditor->setHtml(stream.readAll());
+            stream << ui->texteditor->toHtml();
             file.flush();
             file.close();
         }
@@ -232,9 +231,13 @@ void DeepReader::on_actionOpen_Text_File_triggered()
     QFile file(filename);
     file.open(QFile::ReadOnly | QFile::Text);
     QTextStream ReadFile(&file);
-    ui->texteditor->setPlainText(ReadFile.readAll());
-    // changed from toPlainText to toHtml
-    previousText = ui->texteditor->toHtml().split(QRegExp("[\n]*\\s")).size();
+    if (filename.contains(".rtf")) {
+        ui->texteditor->setHtml(ReadFile.readAll());
+        previousText = ui->texteditor->toHtml().split(QRegExp("[\n]*\\s")).size();
+    } else if (filename.contains(".txt")) {
+        ui->texteditor->setPlainText(ReadFile.readAll());
+        previousText = ui->texteditor->toPlainText().split(QRegExp("[\n]*\\s")).size();
+    }
 }
 
 void DeepReader::on_actionCut_triggered() {

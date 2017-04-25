@@ -371,9 +371,23 @@ void DeepReader::find_questions()
 // find word
 void DeepReader::on_search_returnPressed()
 {
+    // I need a way to go through pages
+    // I could store current word as variable, and when enter is pressed again and it's
+    // the same word, just go to the next page in the pages array
     // search args : const QString &text, SearchFlags flags = 0, Rotation rotate = 0
-    QString word = ui->search->text();
-    QList<QRectF> loc = doc->page(pageCounter)->search(word);
-    qDebug() << loc;
-    qDebug() << loc.empty();
+    if (!studySession) {
+        QString word = ui->search->text();
+        QList<int> pages; // pages on which the word is found
+        for (int i = 0; i < doc->numPages(); ++i) {
+            QList<QRectF> loc = doc->page(i)->search(word);
+            if (!loc.empty()) {
+                pages.append(i);
+                qDebug() << i;
+            }
+        }
+        if (!pages.empty()) {
+            pageCounter = pages[0];
+            showPage();
+        }
+    }
 }

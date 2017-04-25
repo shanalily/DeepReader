@@ -35,6 +35,12 @@ private slots:
 
     void on_actionOpen_Text_File_triggered();
 
+    void on_actionCut_triggered();
+
+    void on_actionCopy_triggered();
+
+    void on_actionPaste_tiggered();
+
     void on_bold_clicked();
 
     void on_italic_clicked();

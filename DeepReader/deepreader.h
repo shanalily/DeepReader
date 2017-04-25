@@ -41,6 +41,8 @@ private slots:
 
     void on_actionPaste_triggered();
 
+    void on_align_currentIndexChanged();
+
     void on_bold_clicked();
 
     void on_italic_clicked();

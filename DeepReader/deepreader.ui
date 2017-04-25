@@ -221,6 +221,28 @@ font-weight: bold;</string>
     <item row="1" column="1">
      <layout class="QHBoxLayout" name="horizontalLayout_4">
       <item>
+       <widget class="QComboBox" name="align">
+        <property name="currentText">
+         <string>Left</string>
+        </property>
+        <item>
+         <property name="text">
+          <string>Left</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>Right</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>Center</string>
+         </property>
+        </item>
+       </widget>
+      </item>
+      <item>
        <widget class="QPushButton" name="bold">
         <property name="maximumSize">
          <size>

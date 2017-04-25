@@ -353,5 +353,8 @@ void DeepReader::find_questions()
 void DeepReader::on_search_returnPressed()
 {
     // search args : const QString &text, SearchFlags flags = 0, Rotation rotate = 0
-//    doc->page(pageCounter)->search()
+    QString word = ui->search->text();
+    QList<QRectF> loc = doc->page(pageCounter)->search(word);
+    qDebug() << loc;
+    qDebug() << loc.empty();
 }

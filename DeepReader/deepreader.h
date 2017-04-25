@@ -39,7 +39,7 @@ private slots:
 
     void on_actionCopy_triggered();
 
-    void on_actionPaste_tiggered();
+    void on_actionPaste_triggered();
 
     void on_bold_clicked();
 

@@ -244,7 +244,7 @@ void DeepReader::on_actionCopy_triggered() {
     ui->texteditor->copy();
 }
 
-void DeepReader::on_actionPaste_tiggered() {
+void DeepReader::on_actionPaste_triggered() {
     ui->texteditor->paste();
 }
 

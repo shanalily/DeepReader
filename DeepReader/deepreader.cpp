@@ -262,6 +262,9 @@ void DeepReader::on_align_currentIndexChanged() {
     else if(ui->align->currentIndex() == 2) {
         ui->texteditor->setAlignment(Qt::AlignCenter);
     }
+    else if(ui->currentIndex() == 3) {
+        ui->texteditor->setAlignment(Qt::AlignJustify);
+    }
     else {
         QMessageBox::critical(this, tr("Error"), tr("Improper index"));
         return;

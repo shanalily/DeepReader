@@ -363,15 +363,7 @@ font-weight: bold;</string>
       </item>
      </layout>
     </item>
-    <item row="0" column="1">
-     <widget class="QTextEdit" name="textEditor">
-      <property name="styleSheet">
-       <string notr="true">background-color:white;</string>
-      </property>
-     </widget>
-    </item>
    </layout>
-   <zorder>textEditor</zorder>
    <zorder>mainImage</zorder>
    <zorder>texteditor</zorder>
   </widget>

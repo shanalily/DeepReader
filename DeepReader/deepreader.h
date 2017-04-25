@@ -41,7 +41,7 @@ private slots:
 
     void on_underline_clicked();
 
-    void change_font();
+    void on_font_currentFontChanged();
 
     void on_font_size_valueChanged();
 

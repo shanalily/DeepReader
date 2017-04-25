@@ -260,13 +260,14 @@ void DeepReader::on_underline_clicked() {
     ui->texteditor->setFontUnderline(!underline);
 }
 
-void DeepReader::change_font() {
-
+void DeepReader::on_font_currentFontChanged() {
+    QFont font = ui->texteditor->currentFont();
+    ui->texteditor->setCurrentFont(font);
 }
 
 void DeepReader::on_font_size_valueChanged() {
     int size = ui->font_size->value();
-    ui->textEditor->setFontPointSize(size);
+    ui->texteditor->setFontPointSize(size);
 }
 
 // text editor zoom-out

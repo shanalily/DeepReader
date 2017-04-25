@@ -334,6 +334,6 @@ void DeepReader::find_questions()
 // find word
 void DeepReader::on_search_returnPressed()
 {
-    // search args : const QString &text, SearchFlags flags = 0
+    // search args : const QString &text, SearchFlags flags = 0, Rotation rotate = 0
 //    doc->page(pageCounter)->search()
 }

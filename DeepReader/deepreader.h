@@ -57,6 +57,8 @@ private slots:
 
     void find_questions();
 
+    void on_search_returnPressed();
+
 private:
     Ui::DeepReader *ui;
     Poppler::Document *doc;

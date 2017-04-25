@@ -213,7 +213,8 @@ void DeepReader::on_actionSave_As_triggered()
         QFile file(filename);
         if (file.open(QIODevice::ReadWrite)) {
             QTextStream stream(&file);
-            stream << ui->texteditor->toHtml();
+//            stream << ui->texteditor->toHtml();
+            ui->texteditor->setHtml(stream.readAll());
             file.flush();
             file.close();
         }

@@ -135,6 +135,12 @@ bool DeepReader::goodNotes() {
     qDebug() << "words.length(): " << words.length();
     qDebug() << "minWordNum: " << minWordNum;
     QStringList notes = ui->texteditor->toPlainText().split(QRegExp("[,;.]*\\s+"));
+    /*
+     // Removing all previous notes
+     for (i = 0; i < previousText; i++){
+        notes.removeAt(0);
+     }
+     */
     qDebug() << notes;
 
     if ((notes.length() - previousText) > minWordNum && relevantNotes(notes, words, previousText) ){
@@ -186,6 +192,9 @@ void DeepReader::on_next_clicked()
             }
             else if (goodNotes()) {
                 ++pageCounter;
+                /*
+                 previousText = QStringList notes = ui->texteditor->toPlainText().split(QRegExp("[,;.]*\\s+")).size();
+                 */
                 if (pageCounter >= doc->numPages())
                     pageCounter = doc->numPages() - 1;
                 showPage();

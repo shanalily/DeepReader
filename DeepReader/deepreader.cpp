@@ -96,21 +96,31 @@ bool relevantNotes(QStringList words, QStringList notes, int previousLength){
     }
 
     // Qwords now contains words minus the common words
-
     int counter = 0;
     for (int i=previousLength; i < notes.size();i++){
+        
+        // If the word in notes is within the common words, continue the loop
         if (HundredMostCommonWords.contains(notes.at(i) ) ){
             continue;
         }
+        // If the word in notes is within the "important" words (Qwords), ++ the counter
         if (Qwords.contains(notes.at(i) ) ){
             counter++;
         }
     }
+    
+    // Defining a arbitrary weightFactor to determine if there are enough relevant words
     int weightFactor = 4;
     if (counter*weightFactor > Qwords.size() ){
         return true;
     }
-    return false;
+    
+    else {
+        qDebug() << "Relevant Word check failed";
+        qDebug() << "# of relevant words in notes: " << counter;
+        qDebug() << "# of relevant words " << Qwords.size();
+        return false;
+    }
  }
 
 bool DeepReader::goodNotes() {

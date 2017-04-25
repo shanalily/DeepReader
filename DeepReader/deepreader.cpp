@@ -343,15 +343,19 @@ void DeepReader::on_start_clicked()
 // pdf viewer zoom-out
 void DeepReader::on_zoom_out_pdf_clicked()
 {
-    zoom -= 10;
-    showPage();
+    if (doc != NULL) {
+        zoom -= 10;
+        showPage();
+    }
 }
 
 // pdf viewer zoom-in
 void DeepReader::on_zoom_in_pdf_clicked()
 {
-    zoom += 10;
-    showPage();
+    if (doc != NULL) {
+        zoom += 10;
+        showPage();
+    }
 }
 
 // question viewer

@@ -252,6 +252,22 @@ void DeepReader::on_actionPaste_triggered() {
     ui->texteditor->paste();
 }
 
+void DeepReader::on_align_currentIndexChanged() {
+    if(ui->align->currentIndex() == 0) {
+        ui->texteditor->setAlignment(Qt::AlignLeft);
+    }
+    else if(ui->align->currentIndex() == 1) {
+        ui->texteditor->setAlignment(Qt::AlignRight);
+    }
+    else if(ui->align->currentIndex() == 2) {
+        ui->texteditor->setAlignment(Qt::AlignCenter);
+    }
+    else {
+        QMessageBox::critical(this, tr("Error"), tr("Improper index"));
+        return;
+    }
+}
+
 void DeepReader::on_bold_clicked() {
     int bold = ui->texteditor->fontWeight();
     if(bold == 50) {

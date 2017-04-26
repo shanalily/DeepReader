@@ -103,7 +103,7 @@ bool relevantNotes(QStringList words, QStringList notes, int previousLength){
     // Qwords now contains words minus the common words
     int counter = 0;
     for (int i=previousLength; i < notes.size();i++){
-        
+
         // If the word in notes is within the common words, continue the loop
         if (HundredMostCommonWords.contains(notes.at(i) ) ){
             continue;
@@ -113,13 +113,13 @@ bool relevantNotes(QStringList words, QStringList notes, int previousLength){
             counter++;
         }
     }
-    
+
     // Defining a arbitrary weightFactor to determine if there are enough relevant words
     int weightFactor = 4;
     if (counter*weightFactor > Qwords.size() ){
         return true;
     }
-    
+
     else {
         qDebug() << "Relevant Word check failed";
         qDebug() << "# of relevant words in notes: " << counter;
@@ -131,12 +131,14 @@ bool relevantNotes(QStringList words, QStringList notes, int previousLength){
 bool DeepReader::goodNotes() {
     // I should probably think of a way to read only the notes written
     // since the page was "turned"
-    if (words.length() < 20) {
+    int minLength = 20;
+    if (words.length() < minLength) {
         // there's very little text on the page. Go to the next page.
         return true;
     }
     // maybe have this as default, but figure out way for user to set this
-    int minWordNum = words.length() * 0.05;
+    float weightFactor = 0.05;
+    int minWordNum = words.length() * weightFactor;
     qDebug() << "words.length(): " << words.length();
     qDebug() << "minWordNum: " << minWordNum;
     QStringList notes = ui->texteditor->toPlainText().split(QRegExp("[,;.]*\\s+"));

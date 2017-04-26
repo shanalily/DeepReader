@@ -75,6 +75,8 @@ private:
     bool studySession;
     int startPage;
     int endPage;
+    std::clock_t startTime;
+    double timeDuration;
     QStringList words;
     // so that I can ignore words in notes
     // from previous pages

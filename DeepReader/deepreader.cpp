@@ -6,6 +6,8 @@
 #include <QMessageBox>
 #include <QShortcut>
 #include <QTextEdit>
+#include <cstdio>
+#include <ctime>
 #include "deepreader.h"
 #include "ui_deepreader.h"
 
@@ -19,6 +21,9 @@ DeepReader::DeepReader(QWidget *parent) :
     studySession = false;
     previousText = 0; // I should probably set this when I open a document, and reset it at points
     doc = NULL;
+    startTime=clock();
+    //set timer for 5 min for now (300 sec), need to add so user can put in the time they want
+    timeDuration = 300;
 
     ui->search->setPlaceholderText("Search");
     ui->start_page->setPlaceholderText("Start Page");
@@ -389,6 +394,15 @@ void DeepReader::find_questions()
         use this to highlight questions or do something
         similar.
     */
+}
+
+// checks if time is up and displays message that time is up
+void DeepReader::checkTime()
+{
+    double secondsPassed = (clock() - startTime) / CLOCKS_PER_SEC;
+    if(secondsPassed >= timeDuration){
+        //TO DO: display that time is up (need to figure out where we want to display time up)
+    }
 }
 
 // find word

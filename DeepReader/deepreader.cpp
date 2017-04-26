@@ -382,20 +382,6 @@ void DeepReader::on_zoom_in_pdf_clicked()
     }
 }
 
-// question viewer
-void DeepReader::find_questions()
-{
-    /*
-        Will implement code for finding questions here,
-        this can possibly be used for implementing our
-        secondary feature of having an answer checker.
-        Most likely won't have time to implement a
-        complete question/answer checker but we could
-        use this to highlight questions or do something
-        similar.
-    */
-}
-
 // checks if time is up and displays message that time is up
 void DeepReader::checkTime()
 {

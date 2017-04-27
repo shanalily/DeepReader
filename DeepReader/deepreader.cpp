@@ -266,6 +266,14 @@ void DeepReader::on_actionOpen_Text_File_triggered()
     }
 }
 
+void DeepReader::on_actionUndo_triggered() {
+    ui->texteditor->undo();
+}
+
+void DeepReader::on_actionRedo_triggered() {
+    ui->texteditor->redo();
+}
+
 void DeepReader::on_actionCut_triggered() {
     ui->texteditor->cut();
 }
@@ -278,26 +286,13 @@ void DeepReader::on_actionPaste_triggered() {
     ui->texteditor->paste();
 }
 
-/*
-void DeepReader::on_align_currentIndexChanged() {
-    if(ui->align->currentIndex() == 0) {
-        ui->texteditor->setAlignment(Qt::AlignLeft);
-    }
-    else if(ui->align->currentIndex() == 1) {
-        ui->texteditor->setAlignment(Qt::AlignRight);
-    }
-    else if(ui->align->currentIndex() == 2) {
-        ui->texteditor->setAlignment(Qt::AlignCenter);
-    }
-    else if(ui->align->currentIndex() == 3) {
-        ui->texteditor->setAlignment(Qt::AlignJustify);
-    }
-    else {
-        QMessageBox::critical(this, tr("Error"), tr("Improper index"));
-        return;
-    }
+void DeepReader::on_actionSelect_All_triggered() {
+    ui->texteditor->selectAll();
 }
-*/
+
+void DeepReader::on_action_Bullet_List_triggered() {
+    ui->texteditor->insertHtml("<ul type=\"disc\"><li></li></ul>");
+}
 
 void DeepReader::on_bold_clicked() {
     int bold = ui->texteditor->fontWeight();

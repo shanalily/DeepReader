@@ -278,6 +278,7 @@ void DeepReader::on_actionPaste_triggered() {
     ui->texteditor->paste();
 }
 
+/*
 void DeepReader::on_align_currentIndexChanged() {
     if(ui->align->currentIndex() == 0) {
         ui->texteditor->setAlignment(Qt::AlignLeft);
@@ -296,6 +297,7 @@ void DeepReader::on_align_currentIndexChanged() {
         return;
     }
 }
+*/
 
 void DeepReader::on_bold_clicked() {
     int bold = ui->texteditor->fontWeight();
@@ -329,6 +331,18 @@ void DeepReader::on_font_currentFontChanged() {
 void DeepReader::on_font_size_valueChanged() {
     int size = ui->font_size->value();
     ui->texteditor->setFontPointSize(size);
+}
+
+void DeepReader::on_alignleft_clicked() {
+    ui->texteditor->setAlignment(Qt::AlignLeft);
+}
+
+void DeepReader::on_aligncenter_clicked() {
+    ui->texteditor->setAlignment(Qt::AlignCenter);
+}
+
+void DeepReader::on_alignright_clicked() {
+    ui->texteditor->setAlignment(Qt::AlignRight);
 }
 
 // text editor zoom-out

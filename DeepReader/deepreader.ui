@@ -221,33 +221,6 @@ font-weight: bold;</string>
     <item row="1" column="1">
      <layout class="QHBoxLayout" name="horizontalLayout_4">
       <item>
-       <widget class="QComboBox" name="align">
-        <property name="currentText">
-         <string>Left</string>
-        </property>
-        <item>
-         <property name="text">
-          <string>Left</string>
-         </property>
-        </item>
-        <item>
-         <property name="text">
-          <string>Right</string>
-         </property>
-        </item>
-        <item>
-         <property name="text">
-          <string>Center</string>
-         </property>
-        </item>
-        <item>
-         <property name="text">
-          <string>Justify</string>
-         </property>
-        </item>
-       </widget>
-      </item>
-      <item>
        <widget class="QPushButton" name="bold">
         <property name="maximumSize">
          <size>
@@ -349,6 +322,57 @@ font-weight: bold;</string>
        </widget>
       </item>
       <item>
+       <widget class="QPushButton" name="alignleft">
+        <property name="maximumSize">
+         <size>
+          <width>30</width>
+          <height>16777215</height>
+         </size>
+        </property>
+        <property name="text">
+         <string/>
+        </property>
+        <property name="icon">
+         <iconset>
+          <normaloff>Align Left-50.png</normaloff>Align Left-50.png</iconset>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QPushButton" name="aligncenter">
+        <property name="maximumSize">
+         <size>
+          <width>30</width>
+          <height>16777215</height>
+         </size>
+        </property>
+        <property name="text">
+         <string/>
+        </property>
+        <property name="icon">
+         <iconset>
+          <normaloff>Align Center-50.png</normaloff>Align Center-50.png</iconset>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QPushButton" name="alignright">
+        <property name="maximumSize">
+         <size>
+          <width>30</width>
+          <height>16777215</height>
+         </size>
+        </property>
+        <property name="text">
+         <string/>
+        </property>
+        <property name="icon">
+         <iconset>
+          <normaloff>Align Right-50.png</normaloff>Align Right-50.png</iconset>
+        </property>
+       </widget>
+      </item>
+      <item>
        <widget class="QPushButton" name="zoom_out">
         <property name="maximumSize">
          <size>
@@ -393,6 +417,7 @@ font-weight: bold;</string>
    </layout>
    <zorder>mainImage</zorder>
    <zorder>texteditor</zorder>
+   <zorder></zorder>
   </widget>
   <widget class="QMenuBar" name="menuBar">
    <property name="geometry">

@@ -373,6 +373,23 @@ font-weight: bold;</string>
        </widget>
       </item>
       <item>
+       <widget class="QPushButton" name="alignjustify">
+        <property name="maximumSize">
+         <size>
+          <width>30</width>
+          <height>16777215</height>
+         </size>
+        </property>
+        <property name="text">
+         <string/>
+        </property>
+        <property name="icon">
+         <iconset>
+          <normaloff>Align Justify-50.png</normaloff>Align Justify-50.png</iconset>
+        </property>
+       </widget>
+      </item>
+      <item>
        <widget class="QPushButton" name="zoom_out">
         <property name="maximumSize">
          <size>

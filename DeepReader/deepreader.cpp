@@ -345,6 +345,10 @@ void DeepReader::on_alignright_clicked() {
     ui->texteditor->setAlignment(Qt::AlignRight);
 }
 
+void DeepReader::on_alignjustify_clicked() {
+    ui->texteditor->setAlignment(Qt::AlignJustify);
+}
+
 // text editor zoom-out
 void DeepReader::on_zoom_out_clicked()
 {

@@ -57,6 +57,8 @@ private slots:
 
     void on_alignright_clicked();
 
+    void on_alignjustify_clicked();
+
     void on_zoom_out_clicked();
 
     void on_zoom_in_clicked();

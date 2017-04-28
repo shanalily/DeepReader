@@ -77,9 +77,11 @@ private slots:
 
     void on_zoom_in_pdf_clicked();
 
-    void find_questions();
+//    void find_questions();
 
     void on_search_returnPressed();
+
+    void checkTime();
 
 private:
     Ui::DeepReader *ui;
@@ -89,7 +91,7 @@ private:
     bool studySession;
     int startPage;
     int endPage;
-    std::clock_t startTime;
+    clock_t startTime;
     double timeDuration;
     QStringList words;
     // so that I can ignore words in notes

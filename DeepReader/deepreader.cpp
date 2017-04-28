@@ -359,6 +359,8 @@ void DeepReader::on_zoom_in_clicked()
     ui->texteditor->zoomIn(3);
 }
 
+// I need to fix previousText variable so that if I go back a page, it doesn't use the
+// current previousText value, meaning that I have to type additional notes
 void DeepReader::on_start_clicked()
 {
     // now that studySession is true, it should be impossible
@@ -366,19 +368,18 @@ void DeepReader::on_start_clicked()
     // I will have to add conditions in other functions based on
     // whether studySession is true or not
     if (doc != NULL) {
-        studySession = true;
         startPage = ui->start_page->text().toInt();
         endPage = ui->end_page->text().toInt();
-        if (pageCounter != startPage) {
-            pageCounter = startPage;
-            showPage();
+        // instead set endPage to doc->numPages()?
+        if (endPage < doc->numPages() && startPage < endPage) {
+            studySession = true;
+            if (pageCounter != startPage) {
+                pageCounter = startPage;
+                showPage();
+            }
+            pageText();
+            qDebug() << goodNotes();
         }
-        // I may want to make words a private variable and pageText() a
-        // private function so that I don't have to copy over an entire
-        // list every time. This depends on what I end up having to extract
-        // text for
-        pageText();
-        qDebug() << goodNotes();
     }
 }
 

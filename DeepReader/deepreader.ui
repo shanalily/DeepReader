@@ -329,6 +329,13 @@ font-weight: bold;</string>
           <height>16777215</height>
          </size>
         </property>
+        <property name="styleSheet">
+         <string notr="true">border: none;
+background-color: #0099cc;
+color: white;
+padding: 4px 4px;
+font-weight: bold;</string>
+        </property>
         <property name="text">
          <string/>
         </property>
@@ -345,6 +352,13 @@ font-weight: bold;</string>
           <width>30</width>
           <height>16777215</height>
          </size>
+        </property>
+        <property name="styleSheet">
+         <string notr="true">border: none;
+background-color: #0099cc;
+color: white;
+padding: 4px 4px;
+font-weight: bold;</string>
         </property>
         <property name="text">
          <string/>
@@ -363,6 +377,13 @@ font-weight: bold;</string>
           <height>16777215</height>
          </size>
         </property>
+        <property name="styleSheet">
+         <string notr="true">border: none;
+background-color: #0099cc;
+color: white;
+padding: 4px 4px;
+font-weight: bold;</string>
+        </property>
         <property name="text">
          <string/>
         </property>
@@ -379,6 +400,13 @@ font-weight: bold;</string>
           <width>30</width>
           <height>16777215</height>
          </size>
+        </property>
+        <property name="styleSheet">
+         <string notr="true">border: none;
+background-color: #0099cc;
+color: white;
+padding: 4px 4px;
+font-weight: bold;</string>
         </property>
         <property name="text">
          <string/>

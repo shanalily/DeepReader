@@ -34,3 +34,5 @@ FORMS    += deepreader.ui
 
 RESOURCES += \
     resources.qrc
+
+CONFIG += qt

@@ -294,7 +294,7 @@ void DeepReader::on_actionSelect_All_triggered() {
 }
 
 void DeepReader::on_action_Bullet_List_triggered() {
-    ui->texteditor->insertHtml("<ul type=\"disc\"><li></li></ul>");
+    ui->texteditor->insertHtml("<ul type='disc'><li></li></ul>");
 }
 
 void DeepReader::on_bold_clicked() {

@@ -40,6 +40,9 @@ DeepReader::DeepReader(QWidget *parent) :
     // for text editor
     // QShortcut *text_zoom_in = new QShortcut(QKeySequence(Qt::CTRL + Qt::Key_Plus), this, SLOT(on_zoom_in_clicked())); // zoom in doesn't work
     // QShortcut *text_zoom_out = new QShortcut(QKeySequence(Qt::CTRL + Qt::Key_Minus), this, SLOT(on_zoom_out_clicked())); // does work
+
+    ui->timer->hide();
+    ui->word_count->hide();
 }
 
 DeepReader::~DeepReader()

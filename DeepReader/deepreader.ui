@@ -497,7 +497,7 @@ font-weight: bold;</string>
     <property name="title">
      <string>Insert</string>
     </property>
-    <addaction name="action_Bullet_List"/>
+    <addaction name="actionBullet_List"/>
    </widget>
    <addaction name="menuFile"/>
    <addaction name="menuEdit"/>
@@ -567,7 +567,7 @@ font-weight: bold;</string>
     <string>Bullet</string>
    </property>
   </action>
-  <action name="action_Bullet_List">
+  <action name="actionBullet_List">
    <property name="text">
     <string>Bullet List</string>
    </property>

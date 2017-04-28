@@ -47,7 +47,7 @@ private slots:
 
     void on_actionSelect_All_triggered();
 
-    void on_action_Bullet_List_triggered();
+    void on_actionBullet_List_triggered();
 
     void on_bold_clicked();
 

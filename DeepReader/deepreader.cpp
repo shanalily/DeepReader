@@ -293,7 +293,7 @@ void DeepReader::on_actionSelect_All_triggered() {
     ui->texteditor->selectAll();
 }
 
-void DeepReader::on_action_Bullet_List_triggered() {
+void DeepReader::on_actionBullet_List_triggered() {
     ui->texteditor->insertHtml("<ul type='disc'><li></li></ul>");
 }
 

@@ -340,8 +340,8 @@ font-weight: bold;</string>
          <string/>
         </property>
         <property name="icon">
-         <iconset>
-          <normaloff>Align Left-50.png</normaloff>Align Left-50.png</iconset>
+         <iconset resource="resources.qrc">
+          <normaloff>:/align/Align Left-50.png</normaloff>:/align/Align Left-50.png</iconset>
         </property>
        </widget>
       </item>
@@ -364,8 +364,8 @@ font-weight: bold;</string>
          <string/>
         </property>
         <property name="icon">
-         <iconset>
-          <normaloff>Align Center-50.png</normaloff>Align Center-50.png</iconset>
+         <iconset resource="resources.qrc">
+          <normaloff>:/align/Align Center-50.png</normaloff>:/align/Align Center-50.png</iconset>
         </property>
        </widget>
       </item>
@@ -388,8 +388,8 @@ font-weight: bold;</string>
          <string/>
         </property>
         <property name="icon">
-         <iconset>
-          <normaloff>Align Right-50.png</normaloff>Align Right-50.png</iconset>
+         <iconset resource="resources.qrc">
+          <normaloff>:/align/Align Right-50.png</normaloff>:/align/Align Right-50.png</iconset>
         </property>
        </widget>
       </item>
@@ -412,8 +412,8 @@ font-weight: bold;</string>
          <string/>
         </property>
         <property name="icon">
-         <iconset>
-          <normaloff>Align Justify-50.png</normaloff>Align Justify-50.png</iconset>
+         <iconset resource="resources.qrc">
+          <normaloff>:/align/Align Justify-50.png</normaloff>:/align/Align Justify-50.png</iconset>
         </property>
        </widget>
       </item>

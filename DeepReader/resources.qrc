@@ -6,7 +6,7 @@
         <file>white_arrow_left.png</file>
         <file>white_arrow_right.png</file>
     </qresource>
-    <qresource prefix="/">
+    <qresource prefix="/align">
         <file>../../Pictures/white_arrow_left.png</file>
         <file>Align Center-50.png</file>
         <file>Align Justify-50.png</file>

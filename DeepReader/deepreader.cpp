@@ -1,4 +1,5 @@
 #include <poppler-qt5.h>
+#include <QInputDialog>
 #include <QDebug>
 #include <QLabel>
 #include <QGraphicsScene>
@@ -405,9 +406,10 @@ void DeepReader::on_zoom_in_pdf_clicked()
 }
 
 // checks if time is up and displays message that time is up
-void DeepReader::checkTime()
-{
+void DeepReader::checkTime() {
     double secondsPassed = (clock() - startTime) / CLOCKS_PER_SEC;
+//    ui->timer->show();
+//    ui->timer->setText(QString::number(secondsPassed));
     if(secondsPassed >= timeDuration){
         //TO DO: display that time is up (need to figure out where we want to display time up)
     }
@@ -420,7 +422,7 @@ void DeepReader::on_search_returnPressed()
     // I could store current word as variable, and when enter is pressed again and it's
     // the same word, just go to the next page in the pages array
     // search args : const QString &text, SearchFlags flags = 0, Rotation rotate = 0
-    if (!studySession) {
+    if (doc != NULL && !studySession) {
         QString word = ui->search->text();
         QList<int> pages; // pages on which the word is found
         for (int i = 0; i < doc->numPages(); ++i) {
@@ -435,4 +437,27 @@ void DeepReader::on_search_returnPressed()
             showPage();
         }
     }
+}
+
+// this function allows the user to select the time duration
+void DeepReader::on_actionSet_Timer_triggered()
+{
+    QInputDialog *timer_input = new QInputDialog();
+    timer_input->setOptions(QInputDialog::NoButtons);
+    bool ok;
+    QString time_str = QInputDialog::getText(0, "Timer settings",
+                      "Minutes per page", QLineEdit::Normal, "", &ok);
+    timeDuration = time_str.toInt()*60;
+}
+
+// start timer for each page, time displays
+void DeepReader::on_actionStart_triggered()
+{
+//    startTime =
+}
+
+// stop timer
+void DeepReader::on_actionStop_triggered()
+{
+    //
 }

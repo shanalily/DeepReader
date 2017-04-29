@@ -83,6 +83,12 @@ private slots:
 
     void checkTime();
 
+    void on_actionSet_Timer_triggered();
+
+    void on_actionStart_triggered();
+
+    void on_actionStop_triggered();
+
 private:
     Ui::DeepReader *ui;
     Poppler::Document *doc;

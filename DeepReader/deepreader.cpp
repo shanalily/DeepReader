@@ -63,7 +63,7 @@ void DeepReader::showPage() {
     // make page into image
     // we need to figure out page dimensions and zoom
     // QImage image = pdfpage->renderToImage(60+zoom,60+zoom, 0,0, dim.rwidth()+zoom,dim.rheight()+zoom);
-    QImage image = pdfpage->renderToImage(72.0 + zoom,72.0 + zoom);
+    image = pdfpage->renderToImage(72.0 + zoom,72.0 + zoom);
     // args to renderToImage: double xres=72.0, double yres=72.0, int x=-1, int y=-1, int w=-1, int h=-1, Rotation rotate=Rotate0
     if (image.isNull()) {
         qDebug() << "image is null";
@@ -480,9 +480,12 @@ void DeepReader::on_search_returnPressed()
     // search args : const QString &text, SearchFlags flags = 0, Rotation rotate = 0
     if (doc != NULL && !studySession) {
         QString word = ui->search->text();
+        QList<QList<QRectF> > locs;
         QList<int> pages; // pages on which the word is found
         for (int i = 0; i < doc->numPages(); ++i) {
             QList<QRectF> loc = doc->page(i)->search(word);
+            locs.append(loc);
+            // change color in image variable at loc
             if (!loc.empty()) {
                 pages.append(i);
                 qDebug() << i;
@@ -491,6 +494,11 @@ void DeepReader::on_search_returnPressed()
         if (!pages.empty()) {
             pageCounter = pages[0];
             showPage();
+            for (int i = 0; i < locs[0].size(); ++i) {
+                // testing
+                qDebug() << locs[0][i].x();
+                qDebug() << locs[0][i].y();
+            }
         }
     }
 }
@@ -525,13 +533,13 @@ void DeepReader::setTimerDisplay()
 {
    //this->timeValue->setHMS(0,this->timeValue->addSecs(-1).minute(),this->timeValue->addSecs(-1).second());
    //this->display(this->timeValue->toString());
-    qDebug << "Timer is running";
+    qDebug() << "Timer is running";
     //Need to add displaying the actual time of the timer
 }
 
 // stop timer
 void DeepReader::on_actionStop_triggered()
 {
-    timer->stop();
+//    timer->stop();
     qDebug() << "Time stopped!";
 }

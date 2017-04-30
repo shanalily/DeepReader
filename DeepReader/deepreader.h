@@ -94,6 +94,7 @@ private slots:
 private:
     Ui::DeepReader *ui;
     Poppler::Document *doc;
+    QImage image; // image of current page
     int pageCounter;
     int zoom;
     bool studySession;

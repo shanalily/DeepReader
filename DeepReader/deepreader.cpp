@@ -361,6 +361,7 @@ void DeepReader::on_actionSelect_All_triggered() {
 }
 
 /*
+// Insert bullet point
 void DeepReader::on_actionBullet_List_triggered() {
     ui->texteditor->insertHtml("<ul type='disc'><li></li></ul>");
 }

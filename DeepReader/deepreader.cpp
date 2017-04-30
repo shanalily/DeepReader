@@ -121,7 +121,7 @@ bool relevantNotes(QStringList words, QStringList notes, int previousLength){
 
     // Defining a arbitrary weightFactor to determine if there are enough relevant words
     int weightFactor = 4;
-    if (counter*weightFactor > Qwords.size() ){
+    if (counter*weightFactor >= Qwords.size() ){
         return true;
     }
 
@@ -132,6 +132,73 @@ bool relevantNotes(QStringList words, QStringList notes, int previousLength){
         return false;
     }
  }
+/*
+
+int relevantNotesCounter(QStringList words, QStringList notes, int previousLength){
+    // Used set to increase efficiency
+    QSet<QString> HundredMostCommonWords({"the","be","to","of","and","a","in","that","have","I","it","for",
+        "not","on","with","he","as","you","do","at","this","but","his","by","from","they","we","say",
+        "her","she","or","an","will","my","one","all","would","there","their","what","so","up","out",
+        "if","about","who","get","which","go","me","when","make","can","like","time","no","just","him",
+        "know","take","people","into","year","your","good","some","could","them","see","other","than",
+        "then","now","look","only","come","its","over","think","also","back","after","use","two","how",
+        "our","work","first","well","way","even","new","want","because","any","these","give","day",
+        "most","us"});
+    //https://en.wikipedia.org/wiki/Most_common_words_in_English
+    QStringList Qwords = QStringList(words); //new QStringList with elements the same as words
+    Qwords.removeDuplicates();
+    for (int i = 0; i < words.size(); i++){
+        if(HundredMostCommonWords.contains(words.at(i) ) ){
+            Qwords.removeAt(i);
+        }
+    }
+    
+    // Qwords now contains words minus the common words
+    int counter = 0;
+    for (int i=previousLength; i < notes.size();i++){
+        
+        // If the word in notes is within the common words, continue the loop
+        if (HundredMostCommonWords.contains(notes.at(i) ) ){
+            continue;
+        }
+        // If the word in notes is within the "important" words (Qwords), ++ the counter
+        if (Qwords.contains(notes.at(i) ) ){
+            counter++;
+        }
+    }
+    
+    // Defining a arbitrary weightFactor to determine if there are enough relevant words
+    int weightFactor = 4;
+    if (counter*weightFactor >= Qwords.size() ){
+        return 0;
+    }
+    return Qwords.size() - (counter*weightFactor);
+}
+
+int goodNotesCounter(QStringList words, QStringList notes, int previousText) {
+    
+    float weightFactor = 0.05;
+    int minWordNum = words.length() * weightFactor;
+
+    // If no more nots are needed, return 0
+    if ((notes.length() - previousText) > minWordNum ){
+        return 0;
+    }
+    
+    // Otherwise return the number of words more you need to write
+    return minWordNum - (notes.length() - previousText);
+}
+ 
+ // Called when "Check my progress counter" is clicked
+ bool DeepReader::goodNotesCounterDriver(){
+    QStringList notes = ui->texteditor->toPlainText().split(QRegExp("[,;.]*\\s+"));
+    // Display goodNotesCounter(words, notes, previousText)
+    // Display relevantNotesCounter(words, notes, previousText)
+ }
+ 
+*/
+
+
 
 bool DeepReader::goodNotes() {
     // I should probably think of a way to read only the notes written

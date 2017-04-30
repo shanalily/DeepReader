@@ -189,12 +189,6 @@ int goodNotesCounter(QStringList words, QStringList notes, int previousText) {
     return minWordNum - (notes.length() - previousText);
 }
  
- // Called when "Check my progress counter" is clicked
- bool DeepReader::goodNotesCounterDriver(){
-
- 
- }
- 
  void DeepReader::updateCounter() {
     QStringList notes = ui->texteditor->toPlainText().split(QRegExp("[,;.]*\\s+"));
     // double secondsPassed = (clock() - startTime) / CLOCKS_PER_SEC;
@@ -534,6 +528,8 @@ void DeepReader::on_actionStart_triggered()
      connect(timer, SIGNAL(timeout()), this, SLOT(setTimerDisplay()));
      //start is in milliseconds so multiply by 1000 to convert to seconds
      timer->start(timeDuration*1000);
+    
+    // PLEASE CALL THIS EVERY SECOND updateCounter()
 }
 
 // update display with timer

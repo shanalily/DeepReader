@@ -9,6 +9,7 @@
 #include <QTextEdit>
 #include <cstdio>
 #include <ctime>
+#include <QTimer>
 #include "deepreader.h"
 #include "ui_deepreader.h"
 
@@ -22,9 +23,6 @@ DeepReader::DeepReader(QWidget *parent) :
     studySession = false;
     previousText = 0; // I should probably set this when I open a document, and reset it at points
     doc = NULL;
-    startTime=clock();
-    //set timer for 5 min for now (300 sec), need to add so user can put in the time they want
-    timeDuration = 300;
 
     ui->search->setPlaceholderText("Search");
     ui->start_page->setPlaceholderText("Start Page");
@@ -453,11 +451,20 @@ void DeepReader::on_actionSet_Timer_triggered()
 // start timer for each page, time displays
 void DeepReader::on_actionStart_triggered()
 {
-//    startTime =
+     startTime=clock();
+     //create new timer
+     QTimer *timer = new QTimer(this);
+     //setup timer signal and slot
+     //it automatically updates UI every second
+     //stops when time runs out or stop triggered
+     connect(timer, SIGNAL(timeout()), this, SLOT(updateCaption()));
+     //start is in milliseconds so multiply by 1000 to convert to seconds
+     timer->start(timeDuration*1000);
 }
 
 // stop timer
 void DeepReader::on_actionStop_triggered()
 {
-    //
+    timer->stop();
+    qDebug() << "Time stopped!";
 }

@@ -89,6 +89,8 @@ private slots:
 
     void on_actionStop_triggered();
 
+    void setTimerDisplay();
+
 private:
     Ui::DeepReader *ui;
     Poppler::Document *doc;

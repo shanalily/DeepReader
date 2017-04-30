@@ -462,6 +462,15 @@ void DeepReader::on_actionStart_triggered()
      timer->start(timeDuration*1000);
 }
 
+// update display with timer
+void DeepReader::setTimerDisplay()
+{
+   //this->timeValue->setHMS(0,this->timeValue->addSecs(-1).minute(),this->timeValue->addSecs(-1).second());
+   //this->display(this->timeValue->toString());
+    qDebug << "Timer is running";
+    //Need to add displaying the actual time of the timer
+}
+
 // stop timer
 void DeepReader::on_actionStop_triggered()
 {

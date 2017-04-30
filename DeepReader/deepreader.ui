@@ -520,9 +520,16 @@ font-weight: bold;</string>
    <zorder>mainImage</zorder>
    <zorder>texteditor</zorder>
    <zorder></zorder>
-   <zorder>horizontalLayoutWidget</zorder>
-   <zorder>horizontalLayoutWidget_2</zorder>
   </widget>
+  <widget class="QToolBar" name="mainToolBar">
+   <attribute name="toolBarArea">
+    <enum>TopToolBarArea</enum>
+   </attribute>
+   <attribute name="toolBarBreak">
+    <bool>false</bool>
+   </attribute>
+  </widget>
+  <widget class="QStatusBar" name="statusBar"/>
   <widget class="QMenuBar" name="menuBar">
    <property name="geometry">
     <rect>
@@ -552,12 +559,6 @@ font-weight: bold;</string>
     <addaction name="actionPaste"/>
     <addaction name="actionSelect_All"/>
    </widget>
-   <widget class="QMenu" name="menuInsert">
-    <property name="title">
-     <string>Insert</string>
-    </property>
-    <addaction name="actionBullet_List"/>
-   </widget>
    <widget class="QMenu" name="menuTimer">
     <property name="title">
      <string>Timer</string>
@@ -568,18 +569,8 @@ font-weight: bold;</string>
    </widget>
    <addaction name="menuFile"/>
    <addaction name="menuEdit"/>
-   <addaction name="menuInsert"/>
    <addaction name="menuTimer"/>
   </widget>
-  <widget class="QToolBar" name="mainToolBar">
-   <attribute name="toolBarArea">
-    <enum>TopToolBarArea</enum>
-   </attribute>
-   <attribute name="toolBarBreak">
-    <bool>false</bool>
-   </attribute>
-  </widget>
-  <widget class="QStatusBar" name="statusBar"/>
   <action name="actionOpen">
    <property name="text">
     <string>Open Document</string>

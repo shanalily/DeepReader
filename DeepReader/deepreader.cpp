@@ -457,7 +457,7 @@ void DeepReader::on_actionStart_triggered()
      //setup timer signal and slot
      //it automatically updates UI every second
      //stops when time runs out or stop triggered
-     connect(timer, SIGNAL(timeout()), this, SLOT(updateCaption()));
+     connect(timer, SIGNAL(timeout()), this, SLOT(setTimerDisplay()));
      //start is in milliseconds so multiply by 1000 to convert to seconds
      timer->start(timeDuration*1000);
 }

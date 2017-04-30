@@ -189,11 +189,12 @@ int goodNotesCounter(QStringList words, QStringList notes, int previousText) {
     return minWordNum - (notes.length() - previousText);
 }
  
- // Called when "Check my progress counter" is clicked
- bool DeepReader::goodNotesCounterDriver(){
+ void DeepReader::updateCounter() {
     QStringList notes = ui->texteditor->toPlainText().split(QRegExp("[,;.]*\\s+"));
-    // Display goodNotesCounter(words, notes, previousText)
-    // Display relevantNotesCounter(words, notes, previousText)
+    // double secondsPassed = (clock() - startTime) / CLOCKS_PER_SEC;
+    int gNC = goodNotesCounter(words, notes, previousText);
+    int rNC = relevantNotesCounter(words, notes, previousText);
+    ui->word_count.setText(gNC);
  }
  
 */
@@ -353,9 +354,11 @@ void DeepReader::on_actionSelect_All_triggered() {
     ui->texteditor->selectAll();
 }
 
+/*
 void DeepReader::on_actionBullet_List_triggered() {
     ui->texteditor->insertHtml("<ul type='disc'><li></li></ul>");
 }
+*/
 
 void DeepReader::on_bold_clicked() {
     int bold = ui->texteditor->fontWeight();
@@ -466,6 +469,13 @@ void DeepReader::checkTime() {
     double secondsPassed = (clock() - startTime) / CLOCKS_PER_SEC;
 //    ui->timer->show();
 //    ui->timer->setText(QString::number(secondsPassed));
+    /*
+    double secondsPassedUpdate = secondsPassed;
+    if(secondsPassedUpdate >= 5){
+        double secondsPassedUpdate -= secondsPassed;
+        updateCounter();
+    }
+    */
     if(secondsPassed >= timeDuration){
         //TO DO: display that time is up (need to figure out where we want to display time up)
     }
@@ -526,6 +536,8 @@ void DeepReader::on_actionStart_triggered()
      connect(timer, SIGNAL(timeout()), this, SLOT(setTimerDisplay()));
      //start is in milliseconds so multiply by 1000 to convert to seconds
      timer->start(timeDuration*1000);
+    
+    // PLEASE CALL THIS EVERY SECOND updateCounter()
 }
 
 // update display with timer

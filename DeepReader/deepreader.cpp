@@ -353,9 +353,11 @@ void DeepReader::on_actionSelect_All_triggered() {
     ui->texteditor->selectAll();
 }
 
+/*
 void DeepReader::on_actionBullet_List_triggered() {
     ui->texteditor->insertHtml("<ul type='disc'><li></li></ul>");
 }
+*/
 
 void DeepReader::on_bold_clicked() {
     int bold = ui->texteditor->fontWeight();

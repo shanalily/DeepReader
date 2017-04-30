@@ -330,26 +330,32 @@ void DeepReader::on_actionOpen_Text_File_triggered()
     }
 }
 
+// Undoes the last operation
 void DeepReader::on_actionUndo_triggered() {
     ui->texteditor->undo();
 }
 
+// Redoes the last operation
 void DeepReader::on_actionRedo_triggered() {
     ui->texteditor->redo();
 }
 
+// Copies the selected text to the clipboard and deletes it from the file
 void DeepReader::on_actionCut_triggered() {
     ui->texteditor->cut();
 }
 
+// Copies the selected text to the clipboard
 void DeepReader::on_actionCopy_triggered() {
     ui->texteditor->copy();
 }
 
+// Pastes the text from the clipboard at the current cursor position
 void DeepReader::on_actionPaste_triggered() {
     ui->texteditor->paste();
 }
 
+// Selects all text in the file
 void DeepReader::on_actionSelect_All_triggered() {
     ui->texteditor->selectAll();
 }
@@ -360,52 +366,66 @@ void DeepReader::on_actionBullet_List_triggered() {
 }
 */
 
+// Bold or unbold
 void DeepReader::on_bold_clicked() {
+    // Current font weight
     int bold = ui->texteditor->fontWeight();
+
+    // If current weight is normal, set to bold
     if(bold == 50) {
         ui->texteditor->setFontWeight(75);
     }
+    // Else if current weight is bold, set to normal
     else if(bold == 75) {
         ui->texteditor->setFontWeight(50);
     }
+    // Else there is an improper font weight
     else {
         QMessageBox::critical(this, tr("Error"), tr("Improper font weight"));
         return;
     }
 }
 
+// Italicize or unitalicize
 void DeepReader::on_italic_clicked() {
     bool italic = ui->texteditor->fontItalic();
     ui->texteditor->setFontItalic(!italic);
 }
 
+// Underline or Un-underline
 void DeepReader::on_underline_clicked() {
     bool underline = ui->texteditor->fontUnderline();
     ui->texteditor->setFontUnderline(!underline);
 }
 
+// Change font
 void DeepReader::on_font_currentFontChanged() {
     QFont font = ui->font->currentFont();
     ui->texteditor->setCurrentFont(font);
 }
 
+// Change font size
 void DeepReader::on_font_size_valueChanged() {
     int size = ui->font_size->value();
     ui->texteditor->setFontPointSize(size);
 }
 
+// Set alginment to the left
 void DeepReader::on_alignleft_clicked() {
     ui->texteditor->setAlignment(Qt::AlignLeft);
 }
 
+// Set alignment to the center
 void DeepReader::on_aligncenter_clicked() {
     ui->texteditor->setAlignment(Qt::AlignCenter);
 }
 
+// Set alignment to the left
 void DeepReader::on_alignright_clicked() {
     ui->texteditor->setAlignment(Qt::AlignRight);
 }
 
+// Set alignment to justified
 void DeepReader::on_alignjustify_clicked() {
     ui->texteditor->setAlignment(Qt::AlignJustify);
 }

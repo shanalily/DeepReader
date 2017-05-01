@@ -282,6 +282,13 @@ font-weight: bold;</string>
        <number>0</number>
       </property>
       <item>
+       <widget class="QLabel" name="words_found">
+        <property name="text">
+         <string>TextLabel</string>
+        </property>
+       </widget>
+      </item>
+      <item>
        <spacer name="horizontalSpacer_3">
         <property name="orientation">
          <enum>Qt::Horizontal</enum>
@@ -559,7 +566,6 @@ font-weight: bold;</string>
     <addaction name="actionPaste"/>
     <addaction name="actionSelect_All"/>
     <addaction name="separator"/>
-    <addaction name="actionChange_relevance_weight"/>
    </widget>
    <widget class="QMenu" name="menuTimer">
     <property name="title">
@@ -569,8 +575,16 @@ font-weight: bold;</string>
     <addaction name="actionStart"/>
     <addaction name="actionStop"/>
    </widget>
+   <widget class="QMenu" name="menuNotes">
+    <property name="title">
+     <string>Notes</string>
+    </property>
+    <addaction name="actionChange_relevance_weight"/>
+    <addaction name="actionStop_Study_Session"/>
+   </widget>
    <addaction name="menuFile"/>
    <addaction name="menuEdit"/>
+   <addaction name="menuNotes"/>
    <addaction name="menuTimer"/>
   </widget>
   <action name="actionOpen">
@@ -651,6 +665,11 @@ font-weight: bold;</string>
   <action name="actionChange_relevance_weight">
    <property name="text">
     <string>Notes Relevance Weight</string>
+   </property>
+  </action>
+  <action name="actionStop_Study_Session">
+   <property name="text">
+    <string>Stop Study Session</string>
    </property>
   </action>
  </widget>

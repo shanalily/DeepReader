@@ -14,15 +14,18 @@
 #include "ui_deepreader.h"
 
 DeepReader::DeepReader(QWidget *parent) :
-    QMainWindow(parent),
-    ui(new Ui::DeepReader)
-{
+    QMainWindow(parent), ui(new Ui::DeepReader) {
     ui->setupUi(this);
     pageCounter = 0;
     zoom = 0;
     studySession = false;
     previousText = 0; // I should probably set this when I open a document, and reset it at points
     doc = NULL;
+    // maybe have this as default, but figure out way for user to set this
+    weightFactor = 0.05;
+    timerOn = false;
+    currentWord = "";
+    pagesIndex = 0;
 
     ui->search->setPlaceholderText("Search");
     ui->start_page->setPlaceholderText("Start Page");
@@ -42,10 +45,15 @@ DeepReader::DeepReader(QWidget *parent) :
 
     ui->timer->hide();
     ui->word_count->hide();
+    ui->words_found->hide();
+
+    // may delete this
+    if (timerOn) {
+        setTimerDisplay();
+    }
 }
 
-DeepReader::~DeepReader()
-{
+DeepReader::~DeepReader() {
     delete ui;
 }
 
@@ -83,7 +91,7 @@ void DeepReader::pageText() {
     }
 }
 
-bool relevantNotes(QStringList words, QStringList notes, int previousLength){
+bool DeepReader::relevantNotes(QStringList words, QStringList notes, int previousLength) {
     // Used set to increase efficiency
     QSet<QString> HundredMostCommonWords({"the","be","to","of","and","a","in","that","have","I","it","for",
             "not","on","with","he","as","you","do","at","this","but","his","by","from","they","we","say",
@@ -104,7 +112,7 @@ bool relevantNotes(QStringList words, QStringList notes, int previousLength){
 
     // Qwords now contains words minus the common words
     int counter = 0;
-    for (int i=previousLength; i < notes.size();i++){
+    for (int i = previousLength; i < notes.size();i++){
 
         // If the word in notes is within the common words, continue the loop
         if (HundredMostCommonWords.contains(notes.at(i) ) ){
@@ -129,9 +137,9 @@ bool relevantNotes(QStringList words, QStringList notes, int previousLength){
         return false;
     }
  }
-/*
 
-int relevantNotesCounter(QStringList words, QStringList notes, int previousLength){
+/*
+int relevantNotesCounter(QStringList words, QStringList notes, int previousLength) {
     // Used set to increase efficiency
     QSet<QString> HundredMostCommonWords({"the","be","to","of","and","a","in","that","have","I","it","for",
         "not","on","with","he","as","you","do","at","this","but","his","by","from","they","we","say",
@@ -185,18 +193,17 @@ int goodNotesCounter(QStringList words, QStringList notes, int previousText) {
     // Otherwise return the number of words more you need to write
     return minWordNum - (notes.length() - previousText);
 }
- 
- void DeepReader::updateCounter() {
+
+
+// only called for timer later on?
+void DeepReader::updateCounter() {
     QStringList notes = ui->texteditor->toPlainText().split(QRegExp("[,;.]*\\s+"));
     // double secondsPassed = (clock() - startTime) / CLOCKS_PER_SEC;
     int gNC = goodNotesCounter(words, notes, previousText);
     int rNC = relevantNotesCounter(words, notes, previousText);
-    ui->word_count.setText(gNC);
- }
- 
+    ui->word_count->setText(QString::number(gNC));
+}
 */
-
-
 
 bool DeepReader::goodNotes() {
     // I should probably think of a way to read only the notes written
@@ -206,17 +213,12 @@ bool DeepReader::goodNotes() {
         // there's very little text on the page. Go to the next page.
         return true;
     }
-    // maybe have this as default, but figure out way for user to set this
-    float weightFactor = 0.05;
     int minWordNum = words.length() * weightFactor;
-    qDebug() << "words.length(): " << words.length();
-    qDebug() << "minWordNum: " << minWordNum;
     QStringList notes = ui->texteditor->toPlainText().split(QRegExp("[,;.]*\\s+"));
     qDebug() << notes;
 
     if ((notes.length() - previousText) > minWordNum && relevantNotes(notes, words, previousText) ){
         previousText = notes.length();
-        qDebug() << "notes length: " << notes.length() << " notes from current page: " << notes.length() - previousText;
         return true;
     }
 
@@ -234,13 +236,11 @@ void DeepReader::on_actionOpen_triggered()
             delete doc;
         }
         pageCounter = 0;
-        qDebug() << (doc == NULL);
         showPage();
     }
 }
 
-void DeepReader::on_previous_clicked()
-{
+void DeepReader::on_previous_clicked() {
     if (doc != NULL) {
         --pageCounter;
         if (pageCounter < 0)
@@ -249,8 +249,7 @@ void DeepReader::on_previous_clicked()
     }
 }
 
-void DeepReader::on_next_clicked()
-{
+void DeepReader::on_next_clicked() {
     // should study session end after last page?
     // i.e. endPage + 1, or after good notes have
     // been taken on that page
@@ -276,8 +275,7 @@ void DeepReader::on_next_clicked()
     }
 }
 
-void DeepReader::on_lineEdit_returnPressed()
-{
+void DeepReader::on_lineEdit_returnPressed() {
     if (doc != NULL) {
         QString text = ui->lineEdit->text();
         if(text.toInt() != NULL) {
@@ -292,8 +290,7 @@ void DeepReader::on_lineEdit_returnPressed()
     }
 }
 
-void DeepReader::on_actionSave_As_triggered()
-{
+void DeepReader::on_actionSave_As_triggered() {
     QString filename = QFileDialog::getSaveFileName(this, tr("Save File"), tr("Text files (*.txt)"));
 
     if (filename != "") {
@@ -311,8 +308,7 @@ void DeepReader::on_actionSave_As_triggered()
     }
 }
 
-void DeepReader::on_actionOpen_Text_File_triggered()
-{
+void DeepReader::on_actionOpen_Text_File_triggered() {
     QString filename = QFileDialog::getOpenFileName(this,
          tr("Open File"), "", tr("Text Files (*.txt *.rtf)"));
     QFile file(filename);
@@ -429,28 +425,25 @@ void DeepReader::on_alignjustify_clicked() {
 }
 
 // text editor zoom-out
-void DeepReader::on_zoom_out_clicked()
-{
+void DeepReader::on_zoom_out_clicked() {
     ui->texteditor->zoomOut(3);
 }
 
 // text editor zoom-in
-void DeepReader::on_zoom_in_clicked()
-{
+void DeepReader::on_zoom_in_clicked() {
     ui->texteditor->zoomIn(3);
 }
 
 // I need to fix previousText variable so that if I go back a page, it doesn't use the
 // current previousText value, meaning that I have to type additional notes
-void DeepReader::on_start_clicked()
-{
+void DeepReader::on_start_clicked() {
     // now that studySession is true, it should be impossible
     // to move to the next page without meeting certain requirements
     // I will have to add conditions in other functions based on
     // whether studySession is true or not
     if (doc != NULL) {
         startPage = ui->start_page->text().toInt();
-        endPage = ui->end_page->text().toInt();
+        endPage = ui->end_page->text().toInt() + 1;
         // instead set endPage to doc->numPages()?
         if (endPage < doc->numPages() && startPage < endPage) {
             studySession = true;
@@ -465,8 +458,7 @@ void DeepReader::on_start_clicked()
 }
 
 // pdf viewer zoom-out
-void DeepReader::on_zoom_out_pdf_clicked()
-{
+void DeepReader::on_zoom_out_pdf_clicked() {
     if (doc != NULL) {
         zoom -= 10;
         showPage();
@@ -474,8 +466,7 @@ void DeepReader::on_zoom_out_pdf_clicked()
 }
 
 // pdf viewer zoom-in
-void DeepReader::on_zoom_in_pdf_clicked()
-{
+void DeepReader::on_zoom_in_pdf_clicked() {
     if (doc != NULL) {
         zoom += 10;
         showPage();
@@ -499,54 +490,53 @@ void DeepReader::checkTime() {
     }
 }
 
+// needed for displaying number of words found from search
+int numWordsFound(const QList<QList<QRectF> > &locs) {
+    int total = 0;
+    for (int i = 0; i < locs.size(); ++i) {
+        total += locs[i].size();
+    }
+    return total;
+}
+
 // find word
-void DeepReader::on_search_returnPressed()
-{
-    // I need a way to go through pages
-    // I could store current word as variable, and when enter is pressed again and it's
-    // the same word, just go to the next page in the pages array
-    // search args : const QString &text, SearchFlags flags = 0, Rotation rotate = 0
+void DeepReader::on_search_returnPressed() {
     if (doc != NULL && !studySession) {
-        QString word = ui->search->text();
-        QList<QList<QRectF> > locs;
-        QList<int> pages; // pages on which the word is found
-        for (int i = 0; i < doc->numPages(); ++i) {
-            QList<QRectF> loc = doc->page(i)->search(word);
-            locs.append(loc);
-            // change color in image variable at loc
-            if (!loc.empty()) {
-                pages.append(i);
-                qDebug() << i;
-            }
-        }
-        if (!pages.empty()) {
-            pageCounter = pages[0];
+        if (ui->search->text() == currentWord) {
+            ++pagesIndex;
+            if (pagesIndex == pages.size())
+                pagesIndex = 0;
+            pageCounter = pages[pagesIndex];
             showPage();
-            for (int i = 0; i < locs[0].size(); ++i) {
-                // testing
-                QPainter word_box(&image);
-                word_box.setBrush(Qt::NoBrush);
-//                word_box.setPen(Qt::yellow);
-//                word_box.drawRect(locs[0][i].x(), locs[0][i].y(), locs[0][i].width(), locs[0][i].height());
-//                word_box.setCompositionMode(QPainter::CompositionMode_SourceIn);
-//                word_box.fillRect(locs[0][i], Qt::yellow);
-//                word_box.end();
-                //
-//                QGraphicsScene *scene = new QGraphicsScene(this);
-//                scene->addPixmap(QPixmap::fromImage(image));
-//                scene->setSceneRect(QPixmap::fromImage(image).rect());
-//                ui->mainImage->setScene(scene);
-                //
-//                qDebug() << locs[0][i].x();
-//                qDebug() << locs[0][i].y();
+            ui->words_found->setText(QString::number(numWordsFound(locs))
+                     + " matches (page " + QString::number(pagesIndex + 1) + " out of " + QString::number(pages.size()) + ")");
+        } else {
+            locs.clear();
+            pages.clear();
+            pagesIndex = 0;
+            QString word = ui->search->text();
+            currentWord = word;
+            for (int i = 0; i < doc->numPages(); ++i) {
+                QList<QRectF> loc = doc->page(i)->search(word);
+                locs.append(loc);
+                // change color in image variable at loc
+                if (!loc.empty()) {
+                    pages.append(i);
+                }
+            }
+            if (!pages.empty()) {
+                pageCounter = pages[0];
+                showPage();
+                ui->words_found->show();
+                ui->words_found->setText(QString::number(numWordsFound(locs))
+                         + " matches (page 1 out of " + QString::number(pages.size()) + ")"); // not quite accurate yet
             }
         }
     }
 }
 
 // this function allows the user to select the time duration
-void DeepReader::on_actionSet_Timer_triggered()
-{
+void DeepReader::on_actionSet_Timer_triggered() {
     QInputDialog *timer_input = new QInputDialog();
     timer_input->setOptions(QInputDialog::NoButtons);
     bool ok;
@@ -556,8 +546,8 @@ void DeepReader::on_actionSet_Timer_triggered()
 }
 
 // start timer for each page, time displays
-void DeepReader::on_actionStart_triggered()
-{
+void DeepReader::on_actionStart_triggered() {
+    // timerOn = true;
      startTime=clock();
      //create new timer
      QTimer *timer = new QTimer(this);
@@ -572,17 +562,46 @@ void DeepReader::on_actionStart_triggered()
 }
 
 // update display with timer
-void DeepReader::setTimerDisplay()
-{
+void DeepReader::setTimerDisplay() {
+//    // connect( ui->word_count, SIGNAL(currentChanged(int)), this, SLOT(onTabChanged(int)) );
+//    startTime=clock();
+//    //create new timer
+//    QTimer *timer = new QTimer(this);
+//    //setup timer signal and slot
+//    //it automatically updates UI every second
+//    //stops when time runs out or stop triggered
+//    connect(timer, &QTimer::timeout, this, &DeepReader::setTimerDisplay);
+//    // connect(timer, SIGNAL(timeout()), this, SLOT(setTimerDisplay()));
+//    qDebug() << timer;
+//    //start is in milliseconds so multiply by 1000 to convert to seconds
+//    timer->start(timeDuration*1000);
+
    //this->timeValue->setHMS(0,this->timeValue->addSecs(-1).minute(),this->timeValue->addSecs(-1).second());
    //this->display(this->timeValue->toString());
     qDebug() << "Timer is running";
     //Need to add displaying the actual time of the timer
+
+    ui->word_count->show();
+    ui->word_count->setText("hi");
 }
 
 // stop timer
-void DeepReader::on_actionStop_triggered()
-{
+void DeepReader::on_actionStop_triggered() {
 //    timer->stop();
     qDebug() << "Time stopped!";
+}
+
+// change from default relevance weight
+void DeepReader::on_actionChange_relevance_weight_triggered() {
+    QInputDialog *weight_input = new QInputDialog();
+    weight_input->setOptions(QInputDialog::NoButtons);
+    bool ok;
+    QString weight_str = QInputDialog::getText(0, "Relevance settings",
+                        "Weight value (default is 0.05)", QLineEdit::Normal, "", &ok);
+    weightFactor = weight_str.toFloat();
+}
+
+// Stop study session
+void DeepReader::on_actionStop_Study_Session_triggered() {
+    //
 }

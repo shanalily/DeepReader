@@ -558,6 +558,8 @@ font-weight: bold;</string>
     <addaction name="actionCopy"/>
     <addaction name="actionPaste"/>
     <addaction name="actionSelect_All"/>
+    <addaction name="separator"/>
+    <addaction name="actionChange_relevance_weight"/>
    </widget>
    <widget class="QMenu" name="menuTimer">
     <property name="title">
@@ -644,6 +646,11 @@ font-weight: bold;</string>
   <action name="actionStop">
    <property name="text">
     <string>Stop</string>
+   </property>
+  </action>
+  <action name="actionChange_relevance_weight">
+   <property name="text">
+    <string>Notes Relevance Weight</string>
    </property>
   </action>
  </widget>

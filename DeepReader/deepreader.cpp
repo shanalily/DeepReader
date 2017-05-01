@@ -61,10 +61,7 @@ void DeepReader::showPage() {
     QSizeF dim = pdfpage->pageSizeF();
 
     // make page into image
-    // we need to figure out page dimensions and zoom
-    // QImage image = pdfpage->renderToImage(60+zoom,60+zoom, 0,0, dim.rwidth()+zoom,dim.rheight()+zoom);
     image = pdfpage->renderToImage(72.0 + zoom,72.0 + zoom);
-    // args to renderToImage: double xres=72.0, double yres=72.0, int x=-1, int y=-1, int w=-1, int h=-1, Rotation rotate=Rotate0
     if (image.isNull()) {
         qDebug() << "image is null";
     }
@@ -506,8 +503,21 @@ void DeepReader::on_search_returnPressed()
             showPage();
             for (int i = 0; i < locs[0].size(); ++i) {
                 // testing
-                qDebug() << locs[0][i].x();
-                qDebug() << locs[0][i].y();
+                QPainter word_box(&image);
+                word_box.setBrush(Qt::NoBrush);
+//                word_box.setPen(Qt::yellow);
+//                word_box.drawRect(locs[0][i].x(), locs[0][i].y(), locs[0][i].width(), locs[0][i].height());
+//                word_box.setCompositionMode(QPainter::CompositionMode_SourceIn);
+//                word_box.fillRect(locs[0][i], Qt::yellow);
+//                word_box.end();
+                //
+//                QGraphicsScene *scene = new QGraphicsScene(this);
+//                scene->addPixmap(QPixmap::fromImage(image));
+//                scene->setSceneRect(QPixmap::fromImage(image).rect());
+//                ui->mainImage->setScene(scene);
+                //
+//                qDebug() << locs[0][i].x();
+//                qDebug() << locs[0][i].y();
             }
         }
     }

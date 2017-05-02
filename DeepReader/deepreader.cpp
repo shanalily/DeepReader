@@ -422,11 +422,14 @@ void DeepReader::on_alignjustify_clicked() {
 }
 
 // Text editor zoom-out
+// currently there's issues that may have
+// to do with html features
 void DeepReader::on_zoom_out_clicked() {
     ui->texteditor->zoomOut(3);
 }
 
 // Text editor zoom-in
+// same issue as with zoom_out_clicked()
 void DeepReader::on_zoom_in_clicked() {
     ui->texteditor->zoomIn(3);
 }
@@ -449,7 +452,8 @@ void DeepReader::on_start_clicked() {
                 showPage();
             }
             pageText();
-            qDebug() << goodNotes();
+            QStringList notes = ui->texteditor->toPlainText().split(QRegExp("[,;.]*\\s+"));
+            previousText = notes.size();
         }
     }
 }
@@ -479,7 +483,7 @@ int numWordsFound(const QList<QList<QRectF> > &locs) {
     return total;
 }
 
-// Find word
+// Find word in document
 void DeepReader::on_search_returnPressed() {
     if (doc != NULL && !studySession) {
         if (ui->search->text() == currentWord) {

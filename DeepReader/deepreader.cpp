@@ -19,7 +19,8 @@ DeepReader::DeepReader(QWidget *parent) :
     pageCounter = 0;
     zoom = 0;
     studySession = false;
-    previousText = 0; // I should probably set this when I open a document, and reset it at points
+    // should set this when document is opened, and reset it at points
+    previousText = 0;
     doc = NULL;
     weightFactor = 0.05;
     timerOn = false;
@@ -30,23 +31,25 @@ DeepReader::DeepReader(QWidget *parent) :
     ui->start_page->setPlaceholderText("Start Page");
     ui->end_page->setPlaceholderText("End page");
 
+    //for turning to next page
     QShortcut *right = new QShortcut(QKeySequence(Qt::Key_Right), this, SLOT(on_next_clicked()));
     QShortcut *left = new QShortcut(QKeySequence(Qt::Key_Left), this, SLOT(on_previous_clicked()));
-    // for when zoom is implemented
+    // for implementation of pdf zoom
     QShortcut *in = new QShortcut(QKeySequence(Qt::CTRL + Qt::Key_Plus), this, SLOT(on_zoom_in_pdf_clicked()));
     QShortcut *out = new QShortcut(QKeySequence(Qt::CTRL + Qt::Key_Minus), this, SLOT(on_zoom_out_pdf_clicked()));
 
     //QShortcut *bullet = new QShortcut(QKeySequence(Qt::CTRL + Qt::SHIFT + Qt::Key_L), this, SLOT(on_action_Bullet_List_triggered()));
 
     // for text editor
-    // QShortcut *text_zoom_in = new QShortcut(QKeySequence(Qt::CTRL + Qt::Key_Plus), this, SLOT(on_zoom_in_clicked())); // zoom in doesn't work
-    // QShortcut *text_zoom_out = new QShortcut(QKeySequence(Qt::CTRL + Qt::Key_Minus), this, SLOT(on_zoom_out_clicked())); // does work
+    // does work
+    // QShortcut *text_zoom_in = new QShortcut(QKeySequence(Qt::CTRL + Qt::Key_Plus), this, SLOT(on_zoom_in_clicked()));
+    // doesn't work
+    // QShortcut *text_zoom_out = new QShortcut(QKeySequence(Qt::CTRL + Qt::Key_Minus), this, SLOT(on_zoom_out_clicked()));
 
     ui->timer->hide();
     ui->word_count->hide();
     ui->words_found->hide();
 
-    // may delete this
     if (timerOn) {
 //        setTimerDisplay();
     }
@@ -56,34 +59,36 @@ DeepReader::~DeepReader() {
     delete ui;
 }
 
+// Displays pdf page
 void DeepReader::showPage() {
     ui->lineEdit->setText(QString::number(pageCounter));
-    // find poppler page
+    // Find poppler page
     Poppler::Page *pdfpage = doc->page(pageCounter);
     if (pdfpage == 0) {
         qDebug() << "you chose page 0, pick again";
     }
 
-    // find dimensions of page
+    // Find dimensions of page
     QSizeF dim = pdfpage->pageSizeF();
 
-    // make page into image
+    // Make page into image
     image = pdfpage->renderToImage(72.0 + zoom,72.0 + zoom);
     if (image.isNull()) {
         qDebug() << "image is null";
     }
 
-    // display image
+    // Display image
     QGraphicsScene *scene = new QGraphicsScene(this);
     scene->addPixmap(QPixmap::fromImage(image));
     scene->setSceneRect(QPixmap::fromImage(image).rect());
     ui->mainImage->setScene(scene);
 }
 
+// Gets text from pdf page
 void DeepReader::pageText() {
     QString text = doc->page(pageCounter)->text(QRectF(0,0,1000,1000));
     qDebug() << text;
-    // I should probably get rid of all the empty strings this makes
+    // Should work on getting rid of all the empty strings this makes
     words = text.split(QRegExp("[:;.,]*\\s+"));
     for (int i = 0; i < words.length(); ++i) {
         qDebug() << words[i];
@@ -194,7 +199,7 @@ int goodNotesCounter(QStringList words, QStringList notes, int previousText) {
 }
 
 
-// only called for timer later on?
+// Only called for timer later on
 void DeepReader::updateCounter() {
     QStringList notes = ui->texteditor->toPlainText().split(QRegExp("[,;.]*\\s+"));
     // double secondsPassed = (clock() - startTime) / CLOCKS_PER_SEC;
@@ -219,7 +224,7 @@ bool DeepReader::goodNotes() {
     QStringList notes = ui->texteditor->toPlainText().split(QRegExp("[,;.]*\\s+"));
     qDebug() << notes;
 
-    if ((notes.length() - previousText) > minWordNum && relevantNotes(notes, words, previousText) ){
+    if ((notes.length() - previousText) > minWordNum && relevantNotes(notes, words, previousText)){
         previousText = notes.length();
         return true;
     }
@@ -227,11 +232,12 @@ bool DeepReader::goodNotes() {
     return false;
 }
 
+// Open PDF File
 void DeepReader::on_actionOpen_triggered()
 {
     QString filename = QFileDialog::getOpenFileName(this,
          tr("Open Document"), "", tr("PDF Files (*.pdf)"));
-    if (filename.contains(".pdf")) { // could I do this in a less trivial way?
+    if (filename.contains(".pdf")) {
         doc = Poppler::Document::load(filename);
         if (!doc || doc->isLocked()) {
             qDebug() << "doc variable is null or locked";
@@ -242,6 +248,7 @@ void DeepReader::on_actionOpen_triggered()
     }
 }
 
+// Go to previous page
 void DeepReader::on_previous_clicked() {
     if (doc != NULL) {
         //if (studySession) {
@@ -256,6 +263,7 @@ void DeepReader::on_previous_clicked() {
     }
 }
 
+// Go to next page
 void DeepReader::on_next_clicked() {
     if (doc != NULL) {
         if (studySession) {
@@ -279,6 +287,7 @@ void DeepReader::on_next_clicked() {
     }
 }
 
+// Edit page displayed
 void DeepReader::on_lineEdit_returnPressed() {
     if (doc != NULL) {
         QString text = ui->lineEdit->text();
@@ -294,6 +303,7 @@ void DeepReader::on_lineEdit_returnPressed() {
     }
 }
 
+// Save notes
 void DeepReader::on_actionSave_As_triggered() {
     QString filename = QFileDialog::getSaveFileName(this, tr("Save File"), tr("Text files (*.txt)"));
 
@@ -312,6 +322,7 @@ void DeepReader::on_actionSave_As_triggered() {
     }
 }
 
+// Open text file
 void DeepReader::on_actionOpen_Text_File_triggered() {
     QString filename = QFileDialog::getOpenFileName(this,
          tr("Open File"), "", tr("Text Files (*.txt *.rtf)"));
@@ -428,18 +439,18 @@ void DeepReader::on_alignjustify_clicked() {
     ui->texteditor->setAlignment(Qt::AlignJustify);
 }
 
-// text editor zoom-out
+// Text editor zoom-out
 void DeepReader::on_zoom_out_clicked() {
     ui->texteditor->zoomOut(3);
 }
 
-// text editor zoom-in
+// Text editor zoom-in
 void DeepReader::on_zoom_in_clicked() {
     ui->texteditor->zoomIn(3);
 }
 
-// I need to fix previousText variable so that if I go back a page, it doesn't use the
-// current previousText value, meaning that I have to type additional notes
+// Need to fix previousText variable so that if you go back a page, it doesn't use the
+// current previousText value, meaning that you have to type additional notes
 void DeepReader::on_start_clicked() {
     // now that studySession is true, it should be impossible
     // to move to the next page without meeting certain requirements
@@ -461,7 +472,7 @@ void DeepReader::on_start_clicked() {
     }
 }
 
-// pdf viewer zoom-out
+// Pdf viewer zoom-out
 void DeepReader::on_zoom_out_pdf_clicked() {
     if (doc != NULL) {
         zoom -= 10;
@@ -469,7 +480,7 @@ void DeepReader::on_zoom_out_pdf_clicked() {
     }
 }
 
-// pdf viewer zoom-in
+// Pdf viewer zoom-in
 void DeepReader::on_zoom_in_pdf_clicked() {
     if (doc != NULL) {
         zoom += 10;
@@ -477,24 +488,7 @@ void DeepReader::on_zoom_in_pdf_clicked() {
     }
 }
 
-// checks if time is up and displays message that time is up
-void DeepReader::checkTime() {
-    double secondsPassed = (clock() - startTime) / CLOCKS_PER_SEC;
-//    ui->timer->show();
-//    ui->timer->setText(QString::number(secondsPassed));
-    /*
-    double secondsPassedUpdate = secondsPassed;
-    if(secondsPassedUpdate >= 5){
-        double secondsPassedUpdate -= secondsPassed;
-        updateCounter();
-    }
-    */
-    if(secondsPassed >= timeDuration){
-        //TO DO: display that time is up (need to figure out where we want to display time up)
-    }
-}
-
-// needed for displaying number of words found from search
+// Needed for displaying number of words found from search
 int numWordsFound(const QList<QList<QRectF> > &locs) {
     int total = 0;
     for (int i = 0; i < locs.size(); ++i) {
@@ -503,7 +497,7 @@ int numWordsFound(const QList<QList<QRectF> > &locs) {
     return total;
 }
 
-// find word
+// Find word
 void DeepReader::on_search_returnPressed() {
     if (doc != NULL && !studySession) {
         if (ui->search->text() == currentWord) {
@@ -532,14 +526,15 @@ void DeepReader::on_search_returnPressed() {
                 pageCounter = pages[0];
                 showPage();
                 ui->words_found->show();
+                // not quite accurate yet
                 ui->words_found->setText(QString::number(numWordsFound(locs))
-                         + " matches (page 1 out of " + QString::number(pages.size()) + ")"); // not quite accurate yet
+                         + " matches (page 1 out of " + QString::number(pages.size()) + ")");
             }
         }
     }
 }
 
-// this function allows the user to select the time duration
+// This function allows the user to select the time duration
 void DeepReader::on_actionSet_Timer_triggered() {
     QInputDialog *timer_input = new QInputDialog();
     timer_input->setOptions(QInputDialog::NoButtons);
@@ -550,11 +545,11 @@ void DeepReader::on_actionSet_Timer_triggered() {
 }
 
 /*
-// start timer for each page, time displays
+// Start timer for each page
 void DeepReader::on_actionStart_triggered()
 {
      // connect( ui->word_count, SIGNAL(currentChanged(int)), this, SLOT(onTabChanged(int)) );
-     startTime=clock();
+     startTime = clock();
      //create new timer
      timer = new QTimer(this);
      //setup timer signal and slot
@@ -565,7 +560,7 @@ void DeepReader::on_actionStart_triggered()
      timer->start(timeDuration*1000);
 }
 
-// update display with timer every second
+// Update display with timer every second
 void DeepReader::setTimerDisplay()
 {
     ui->timer->show();
@@ -576,7 +571,7 @@ void DeepReader::setTimerDisplay()
     updateCounter();
 }
 
-// stop timer
+// Stop timer
 void DeepReader::on_actionStop_triggered()
 {
     timer->stop();
@@ -584,7 +579,7 @@ void DeepReader::on_actionStop_triggered()
     ui->timer->setText("Timer stopped");
 }*/
 
-// change from default relevance weight
+// Change from default relevance weight
 void DeepReader::on_actionChange_relevance_weight_triggered() {
     QInputDialog *weight_input = new QInputDialog();
     weight_input->setOptions(QInputDialog::NoButtons);

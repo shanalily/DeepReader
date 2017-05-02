@@ -18,7 +18,7 @@ public:
     void showPage();
     // determines whether notes are relevant to material on current page
     bool relevantNotes(QStringList words, QStringList notes, int previousLength);
-    //
+    //updates counter of relevant note words
     void updateCounter();
     // extracts text from pdf page
     void pageText(); // I'm not sure what this should return yet
@@ -63,9 +63,12 @@ private slots:
 
 private:
     Ui::DeepReader *ui;
-    Poppler::Document *doc; // pdf document
-    QImage image; // image of current page
-    int pageCounter; // page that should be viewed
+    // pdf document
+    Poppler::Document *doc;
+    // image of current page
+    QImage image;
+    // page that should be viewed
+    int pageCounter;
     int zoom;
     bool studySession;
     float weightFactor;
@@ -74,15 +77,17 @@ private:
     clock_t startTime;
     double timeDuration;
     QStringList words;
-    // so that I can ignore words in notes
-    // from previous pages
+    // so that words in notes from
+    // previous pages can be ignored
     int previousText;
     QString currentWord;
     // in case coloring search word is implemented
     QList<QList<QRectF> > locs;
-    QList<int> pages; // pages on which search word is found
+    // pages on which search word is found
+    QList<int> pages;
     int pagesIndex;
-    bool timerOn; // may delete
+    bool timerOn;
+    //timer per page
     QTimer *timer;
 };
 

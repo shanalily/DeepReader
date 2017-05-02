@@ -545,51 +545,40 @@ void DeepReader::on_actionSet_Timer_triggered() {
     timeDuration = time_str.toInt()*60;
 }
 
+/*
 // start timer for each page, time displays
-void DeepReader::on_actionStart_triggered() {
-    // timerOn = true;
+void DeepReader::on_actionStart_triggered()
+{
+     // connect( ui->word_count, SIGNAL(currentChanged(int)), this, SLOT(onTabChanged(int)) );
      startTime=clock();
      //create new timer
-     QTimer *timer = new QTimer(this);
+     timer = new QTimer(this);
      //setup timer signal and slot
      //it automatically updates UI every second
      //stops when time runs out or stop triggered
      connect(timer, SIGNAL(timeout()), this, SLOT(setTimerDisplay()));
      //start is in milliseconds so multiply by 1000 to convert to seconds
      timer->start(timeDuration*1000);
-    
-    // PLEASE CALL THIS EVERY SECOND updateCounter()
 }
 
-// update display with timer
-void DeepReader::setTimerDisplay() {
-//    // connect( ui->word_count, SIGNAL(currentChanged(int)), this, SLOT(onTabChanged(int)) );
-//    startTime=clock();
-//    //create new timer
-//    QTimer *timer = new QTimer(this);
-//    //setup timer signal and slot
-//    //it automatically updates UI every second
-//    //stops when time runs out or stop triggered
-//    connect(timer, &QTimer::timeout, this, &DeepReader::setTimerDisplay);
-//    // connect(timer, SIGNAL(timeout()), this, SLOT(setTimerDisplay()));
-//    qDebug() << timer;
-//    //start is in milliseconds so multiply by 1000 to convert to seconds
-//    timer->start(timeDuration*1000);
-
-   //this->timeValue->setHMS(0,this->timeValue->addSecs(-1).minute(),this->timeValue->addSecs(-1).second());
-   //this->display(this->timeValue->toString());
-    qDebug() << "Timer is running";
+// update display with timer every second
+void DeepReader::setTimerDisplay()
+{
+    ui->timer->show();
+    ui->timer->setText("Timer is running");
     //Need to add displaying the actual time of the timer
 
-    ui->word_count->show();
-    ui->word_count->setText("hi");
+    //call updateCounter func to check notes quality every second
+    updateCounter();
 }
 
 // stop timer
-void DeepReader::on_actionStop_triggered() {
-//    timer->stop();
-    qDebug() << "Time stopped!";
-}
+void DeepReader::on_actionStop_triggered()
+{
+    timer->stop();
+    ui->timer->show();
+    ui->timer->setText("Timer stopped");
+}*/
 
 // change from default relevance weight
 void DeepReader::on_actionChange_relevance_weight_triggered() {

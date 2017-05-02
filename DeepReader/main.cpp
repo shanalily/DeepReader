@@ -8,6 +8,7 @@
 #include <cstdio>
 #include <ctime>
 #include <QLabel>
+#include <QTimer>
 #include <QPaintDevice> // do I need this or anything else though
 
 int main(int argc, char *argv[])

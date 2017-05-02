@@ -2,6 +2,7 @@
 #define DEEPREADER_H
 
 #include <QMainWindow>
+#include <QTimer>
 #include <poppler-qt5.h>
 
 namespace Ui {
@@ -52,7 +53,6 @@ private slots:
     void on_zoom_out_pdf_clicked();
     void on_zoom_in_pdf_clicked();
     void on_search_returnPressed();
-    void checkTime();
     void on_actionSet_Timer_triggered();
     void on_actionStart_triggered();
     void on_actionStop_triggered();
@@ -80,6 +80,7 @@ private:
     QList<int> pages; // pages on which search word is found
     int pagesIndex;
     bool timerOn; // may delete
+    QTimer *timer;
 };
 
 #endif // DEEPREADER_H

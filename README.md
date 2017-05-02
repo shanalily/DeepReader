@@ -10,6 +10,10 @@ DeepReader, initially created as a CSCI2963 project, is an application that incr
 
 Download [Qt Creator version 4.5](https://www.qt.io/download/) and [Poppler Qt5](https://people.freedesktop.org/~aacid/docs/qt5/). Intsructions on installing both can be found in the DeepReader Wiki. From there open all files in the DeepReader folder in Qt Creator (Open Qt Creator -> File -> Open Project -> Select all files in DeepReader folder -> Open) and hit the run button. This will execute the application.
 
+## **License**
+
+GNU General Public License v3.0
+
 
 ## **How can I contribute?**
 

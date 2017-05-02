@@ -25,6 +25,7 @@ public:
     // determines whether notes are good enough to move to the next page
     bool goodNotes();
     void checkTime();
+    int goodNotesCounter(QStringList words, QStringList notes, int previousText);
 private slots:
     void on_actionOpen_triggered();
     void on_previous_clicked();
@@ -55,9 +56,9 @@ private slots:
     void on_zoom_in_pdf_clicked();
     void on_search_returnPressed();
     void on_actionSet_Timer_triggered();
-//    void on_actionStart_triggered();
-//    void on_actionStop_triggered();
-//    void setTimerDisplay();
+    void on_actionStart_triggered();
+    void on_actionStop_triggered();
+    void setTimerDisplay();
     void on_actionChange_relevance_weight_triggered();
     void on_actionStop_Study_Session_triggered();
 

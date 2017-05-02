@@ -19,7 +19,6 @@ DeepReader::DeepReader(QWidget *parent) :
     pageCounter = 0;
     zoom = 0;
     studySession = false;
-    // should set this when document is opened, and reset it at points
     previousText = 0;
     doc = NULL;
     weightFactor = 0.05;
@@ -38,6 +37,7 @@ DeepReader::DeepReader(QWidget *parent) :
     QShortcut *in = new QShortcut(QKeySequence(Qt::CTRL + Qt::Key_Plus), this, SLOT(on_zoom_in_pdf_clicked()));
     QShortcut *out = new QShortcut(QKeySequence(Qt::CTRL + Qt::Key_Minus), this, SLOT(on_zoom_out_pdf_clicked()));
 
+    // on_action_Bullet_List_triggered() doesn't work yet
     //QShortcut *bullet = new QShortcut(QKeySequence(Qt::CTRL + Qt::SHIFT + Qt::Key_L), this, SLOT(on_action_Bullet_List_triggered()));
 
     // for text editor
@@ -87,14 +87,11 @@ void DeepReader::showPage() {
 // Gets text from pdf page
 void DeepReader::pageText() {
     QString text = doc->page(pageCounter)->text(QRectF(0,0,1000,1000));
-    qDebug() << text;
-    // Should work on getting rid of all the empty strings this makes
     words = text.split(QRegExp("[:;.,]*\\s+"));
-    for (int i = 0; i < words.length(); ++i) {
-        qDebug() << words[i];
-    }
 }
 
+// This function determines whether a certain percentage of words in the notes match up
+// with the words on the current page of the textbook
 bool DeepReader::relevantNotes(QStringList words, QStringList notes, int previousLength) {
     // Used set to increase efficiency
     QSet<QString> HundredMostCommonWords({"the","be","to","of","and","a","in","that","have","I","it","for",
@@ -133,16 +130,9 @@ bool DeepReader::relevantNotes(QStringList words, QStringList notes, int previou
     if (counter*weightFactor >= Qwords.size() ){
         return true;
     }
-
-    else {
-        qDebug() << "Relevant Word check failed";
-        qDebug() << "# of relevant words in notes: " << counter;
-        qDebug() << "# of relevant words " << Qwords.size();
-        return false;
-    }
  }
 
-/*
+
 int relevantNotesCounter(QStringList words, QStringList notes, int previousLength) {
     // Used set to increase efficiency
     QSet<QString> HundredMostCommonWords({"the","be","to","of","and","a","in","that","have","I","it","for",
@@ -184,9 +174,8 @@ int relevantNotesCounter(QStringList words, QStringList notes, int previousLengt
     return Qwords.size() - (counter*weightFactor);
 }
 
-int goodNotesCounter(QStringList words, QStringList notes, int previousText) {
+int DeepReader::goodNotesCounter(QStringList words, QStringList notes, int previousText) {
     
-    float weightFactor = 0.05;
     int minWordNum = words.length() * weightFactor;
 
     // If no more nots are needed, return 0
@@ -198,7 +187,6 @@ int goodNotesCounter(QStringList words, QStringList notes, int previousText) {
     return minWordNum - (notes.length() - previousText);
 }
 
-
 // Only called for timer later on
 void DeepReader::updateCounter() {
     QStringList notes = ui->texteditor->toPlainText().split(QRegExp("[,;.]*\\s+"));
@@ -207,7 +195,7 @@ void DeepReader::updateCounter() {
     int rNC = relevantNotesCounter(words, notes, previousText);
     ui->word_count->setText(QString::number(gNC));
 }
-*/
+
 
 // this function determines whether notes meet the requirement by
 // checking the length of the notes and calling the relevant notes
@@ -251,15 +239,12 @@ void DeepReader::on_actionOpen_triggered()
 // Go to previous page
 void DeepReader::on_previous_clicked() {
     if (doc != NULL) {
-        //if (studySession) {
-            //
-        // }
-        // else {
-            --pageCounter;
-            if (pageCounter < 0)
-                pageCounter = 0;
-            showPage();
-        // }
+        // This still needs to be fixed to work
+        // with studySession
+        --pageCounter;
+        if (pageCounter < 0)
+            pageCounter = 0;
+        showPage();
     }
 }
 
@@ -296,10 +281,7 @@ void DeepReader::on_lineEdit_returnPressed() {
                 pageCounter = text.toInt();
                 showPage();
             }
-        } else {
-            qDebug() << "string entered was not a number";
         }
-        qDebug() << text;
     }
 }
 
@@ -544,7 +526,8 @@ void DeepReader::on_actionSet_Timer_triggered() {
     timeDuration = time_str.toInt()*60;
 }
 
-/*
+
+
 // Start timer for each page
 void DeepReader::on_actionStart_triggered()
 {
@@ -561,8 +544,7 @@ void DeepReader::on_actionStart_triggered()
 }
 
 // Update display with timer every second
-void DeepReader::setTimerDisplay()
-{
+void DeepReader::setTimerDisplay() {
     ui->timer->show();
     ui->timer->setText("Timer is running");
     //Need to add displaying the actual time of the timer
@@ -571,13 +553,14 @@ void DeepReader::setTimerDisplay()
     updateCounter();
 }
 
+
+
 // Stop timer
-void DeepReader::on_actionStop_triggered()
-{
+void DeepReader::on_actionStop_triggered() {
     timer->stop();
     ui->timer->show();
     ui->timer->setText("Timer stopped");
-}*/
+}
 
 // Change from default relevance weight
 void DeepReader::on_actionChange_relevance_weight_triggered() {

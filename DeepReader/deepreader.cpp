@@ -132,7 +132,7 @@ bool DeepReader::relevantNotes(QStringList words, QStringList notes, int previou
     }
  }
 
-
+// Function to determine number of words needed to reach the required number of relevant notes
 int relevantNotesCounter(QStringList words, QStringList notes, int previousLength) {
     // Used set to increase efficiency
     QSet<QString> HundredMostCommonWords({"the","be","to","of","and","a","in","that","have","I","it","for",
@@ -151,11 +151,11 @@ int relevantNotesCounter(QStringList words, QStringList notes, int previousLengt
             Qwords.removeAt(i);
         }
     }
-    
+
     // Qwords now contains words minus the common words
     int counter = 0;
     for (int i=previousLength; i < notes.size(); i++) {
-        
+
         // If the word in notes is within the common words, continue the loop
         if (HundredMostCommonWords.contains(notes.at(i))) {
             continue;
@@ -165,7 +165,7 @@ int relevantNotesCounter(QStringList words, QStringList notes, int previousLengt
             counter++;
         }
     }
-    
+
     // Defining a arbitrary weightFactor to determine if there are enough relevant words
     int weightFactor = 4;
     if (counter * weightFactor >= Qwords.size()) {
@@ -174,15 +174,16 @@ int relevantNotesCounter(QStringList words, QStringList notes, int previousLengt
     return Qwords.size() - (counter * weightFactor);
 }
 
+// Function to determine number of words needed to reach the required quantity of notes
 int DeepReader::goodNotesCounter(QStringList words, QStringList notes, int previousText) {
-    
+
     int minWordNum = words.length() * weightFactor;
 
     // If no more nots are needed, return 0
     if ((notes.length() - previousText) > minWordNum) {
         return 0;
     }
-    
+
     // Otherwise return the number of words more you need to write
     return minWordNum - (notes.length() - previousText);
 }

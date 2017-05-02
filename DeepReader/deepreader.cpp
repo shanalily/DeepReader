@@ -21,7 +21,6 @@ DeepReader::DeepReader(QWidget *parent) :
     studySession = false;
     previousText = 0; // I should probably set this when I open a document, and reset it at points
     doc = NULL;
-    // maybe have this as default, but figure out way for user to set this
     weightFactor = 0.05;
     timerOn = false;
     currentWord = "";
@@ -205,6 +204,9 @@ void DeepReader::updateCounter() {
 }
 */
 
+// this function determines whether notes meet the requirement by
+// checking the length of the notes and calling the relevant notes
+// function
 bool DeepReader::goodNotes() {
     // I should probably think of a way to read only the notes written
     // since the page was "turned"
@@ -242,17 +244,19 @@ void DeepReader::on_actionOpen_triggered()
 
 void DeepReader::on_previous_clicked() {
     if (doc != NULL) {
-        --pageCounter;
-        if (pageCounter < 0)
-            pageCounter = 0;
-        showPage();
+        //if (studySession) {
+            //
+        // }
+        // else {
+            --pageCounter;
+            if (pageCounter < 0)
+                pageCounter = 0;
+            showPage();
+        // }
     }
 }
 
 void DeepReader::on_next_clicked() {
-    // should study session end after last page?
-    // i.e. endPage + 1, or after good notes have
-    // been taken on that page
     if (doc != NULL) {
         if (studySession) {
             if (pageCounter >= endPage) {
@@ -603,5 +607,12 @@ void DeepReader::on_actionChange_relevance_weight_triggered() {
 
 // Stop study session
 void DeepReader::on_actionStop_Study_Session_triggered() {
-    //
+    if (studySession == true) {
+        QMessageBox::StandardButton reply;
+        reply = QMessageBox::question(this, "Study Session Settings", "Are you sure you want to stop?",
+                                      QMessageBox::Yes|QMessageBox::No);
+        if (reply == QMessageBox::Yes) {
+            studySession = false;
+        }
+    }
 }

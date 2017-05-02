@@ -58,6 +58,8 @@ private slots:
     void on_actionStop_triggered();
     void setTimerDisplay();
     void on_actionChange_relevance_weight_triggered();
+    void on_actionStop_Study_Session_triggered();
+
 private:
     Ui::DeepReader *ui;
     Poppler::Document *doc; // pdf document

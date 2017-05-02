@@ -72,7 +72,7 @@ void DeepReader::showPage() {
     QSizeF dim = pdfpage->pageSizeF();
 
     // Make page into image
-    image = pdfpage->renderToImage(72.0 + zoom,72.0 + zoom);
+    image = pdfpage->renderToImage(72.0 + zoom, 72.0 + zoom);
     if (image.isNull()) {
         qDebug() << "image is null";
     }
@@ -86,7 +86,7 @@ void DeepReader::showPage() {
 
 // Gets text from pdf page
 void DeepReader::pageText() {
-    QString text = doc->page(pageCounter)->text(QRectF(0,0,1000,1000));
+    QString text = doc->page(pageCounter)->text(QRectF(0, 0, 1000, 1000));
     words = text.split(QRegExp("[:;.,]*\\s+"));
 }
 
@@ -105,29 +105,29 @@ bool DeepReader::relevantNotes(QStringList words, QStringList notes, int previou
     //https://en.wikipedia.org/wiki/Most_common_words_in_English
     QStringList Qwords = QStringList(words); //new QStringList with elements the same as words
     Qwords.removeDuplicates();
-    for (int i = 0; i < words.size(); i++){
-        if(HundredMostCommonWords.contains(words.at(i) ) ){
+    for (int i = 0; i < words.size(); i++) {
+        if (HundredMostCommonWords.contains(words.at(i))) {
             Qwords.removeAt(i);
         }
     }
 
     // Qwords now contains words minus the common words
     int counter = 0;
-    for (int i = previousLength; i < notes.size();i++){
+    for (int i = previousLength; i < notes.size(); i++) {
 
         // If the word in notes is within the common words, continue the loop
-        if (HundredMostCommonWords.contains(notes.at(i) ) ){
+        if (HundredMostCommonWords.contains(notes.at(i))) {
             continue;
         }
         // If the word in notes is within the "important" words (Qwords), ++ the counter
-        if (Qwords.contains(notes.at(i) ) ){
+        if (Qwords.contains(notes.at(i))) {
             counter++;
         }
     }
 
     // Defining a arbitrary weightFactor to determine if there are enough relevant words
     int weightFactor = 4;
-    if (counter*weightFactor >= Qwords.size() ){
+    if (counter * weightFactor >= Qwords.size()) {
         return true;
     }
  }
@@ -146,32 +146,32 @@ int relevantNotesCounter(QStringList words, QStringList notes, int previousLengt
     //https://en.wikipedia.org/wiki/Most_common_words_in_English
     QStringList Qwords = QStringList(words); //new QStringList with elements the same as words
     Qwords.removeDuplicates();
-    for (int i = 0; i < words.size(); i++){
-        if(HundredMostCommonWords.contains(words.at(i) ) ){
+    for (int i = 0; i < words.size(); i++) {
+        if(HundredMostCommonWords.contains(words.at(i))) {
             Qwords.removeAt(i);
         }
     }
     
     // Qwords now contains words minus the common words
     int counter = 0;
-    for (int i=previousLength; i < notes.size();i++){
+    for (int i=previousLength; i < notes.size(); i++) {
         
         // If the word in notes is within the common words, continue the loop
-        if (HundredMostCommonWords.contains(notes.at(i) ) ){
+        if (HundredMostCommonWords.contains(notes.at(i))) {
             continue;
         }
         // If the word in notes is within the "important" words (Qwords), ++ the counter
-        if (Qwords.contains(notes.at(i) ) ){
+        if (Qwords.contains(notes.at(i))) {
             counter++;
         }
     }
     
     // Defining a arbitrary weightFactor to determine if there are enough relevant words
     int weightFactor = 4;
-    if (counter*weightFactor >= Qwords.size() ){
+    if (counter * weightFactor >= Qwords.size()) {
         return 0;
     }
-    return Qwords.size() - (counter*weightFactor);
+    return Qwords.size() - (counter * weightFactor);
 }
 
 int DeepReader::goodNotesCounter(QStringList words, QStringList notes, int previousText) {
@@ -179,7 +179,7 @@ int DeepReader::goodNotesCounter(QStringList words, QStringList notes, int previ
     int minWordNum = words.length() * weightFactor;
 
     // If no more nots are needed, return 0
-    if ((notes.length() - previousText) > minWordNum ){
+    if ((notes.length() - previousText) > minWordNum) {
         return 0;
     }
     
@@ -212,7 +212,7 @@ bool DeepReader::goodNotes() {
     QStringList notes = ui->texteditor->toPlainText().split(QRegExp("[,;.]*\\s+"));
     qDebug() << notes;
 
-    if ((notes.length() - previousText) > minWordNum && relevantNotes(notes, words, previousText)){
+    if ((notes.length() - previousText) > minWordNum && relevantNotes(notes, words, previousText)) {
         previousText = notes.length();
         return true;
     }
@@ -263,7 +263,8 @@ void DeepReader::on_next_clicked() {
                     pageCounter = doc->numPages() - 1;
                 showPage();
             }
-        } else {
+        }
+        else {
             ++pageCounter;
             if (pageCounter >= doc->numPages())
                 pageCounter = doc->numPages() - 1;
@@ -314,7 +315,8 @@ void DeepReader::on_actionOpen_Text_File_triggered() {
     if (filename.contains(".rtf")) {
         ui->texteditor->setHtml(ReadFile.readAll());
         previousText = ui->texteditor->toHtml().split(QRegExp("[\n]*\\s")).size();
-    } else if (filename.contains(".txt")) {
+    }
+    else if (filename.contains(".txt")) {
         ui->texteditor->setPlainText(ReadFile.readAll());
         previousText = ui->texteditor->toPlainText().split(QRegExp("[\n]*\\s")).size();
     }
@@ -363,11 +365,11 @@ void DeepReader::on_bold_clicked() {
     int bold = ui->texteditor->fontWeight();
 
     // If current weight is normal, set to bold
-    if(bold == 50) {
+    if (bold == 50) {
         ui->texteditor->setFontWeight(75);
     }
     // Else if current weight is bold, set to normal
-    else if(bold == 75) {
+    else if (bold == 75) {
         ui->texteditor->setFontWeight(50);
     }
     // Else there is an improper font weight
@@ -493,8 +495,10 @@ void DeepReader::on_search_returnPressed() {
             pageCounter = pages[pagesIndex];
             showPage();
             ui->words_found->setText(QString::number(numWordsFound(locs))
-                     + " matches (page " + QString::number(pagesIndex + 1) + " out of " + QString::number(pages.size()) + ")");
-        } else {
+                     + " matches (page " + QString::number(pagesIndex + 1) + " out of "
+                     + QString::number(pages.size()) + ")");
+        }
+        else {
             locs.clear();
             pages.clear();
             pagesIndex = 0;
@@ -527,7 +531,7 @@ void DeepReader::on_actionSet_Timer_triggered() {
     bool ok;
     QString time_str = QInputDialog::getText(0, "Timer settings",
                       "Minutes per page", QLineEdit::Normal, "", &ok);
-    timeDuration = time_str.toInt()*60;
+    timeDuration = time_str.toInt() * 60;
 }
 
 
@@ -535,7 +539,7 @@ void DeepReader::on_actionSet_Timer_triggered() {
 // Start timer for each page
 void DeepReader::on_actionStart_triggered()
 {
-     // connect( ui->word_count, SIGNAL(currentChanged(int)), this, SLOT(onTabChanged(int)) );
+     // connect(ui->word_count, SIGNAL(currentChanged(int)), this, SLOT(onTabChanged(int)));
      startTime = clock();
      //create new timer
      timer = new QTimer(this);
@@ -544,7 +548,7 @@ void DeepReader::on_actionStart_triggered()
      //stops when time runs out or stop triggered
      connect(timer, SIGNAL(timeout()), this, SLOT(setTimerDisplay()));
      //start is in milliseconds so multiply by 1000 to convert to seconds
-     timer->start(timeDuration*1000);
+     timer->start(timeDuration * 1000);
 }
 
 // Update display with timer every second

@@ -48,7 +48,7 @@ DeepReader::DeepReader(QWidget *parent) :
 
     // may delete this
     if (timerOn) {
-        setTimerDisplay();
+//        setTimerDisplay();
     }
 }
 
